@@ -1,0 +1,22 @@
+{
+  "name": "backstubber",
+  "version": "0.1.0",
+  "private": true,
+  "author": "Luca Bernardo Ciddio",
+  "description": "Simple backend stubs.",
+  "main": "index.js",
+  "bin": {
+    "backstubber": "bin/cmd.js"
+  },
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "express": "^4.13.1"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.3.2",
+    "latodoc": "smeijer/latodoc"
+  },
+  "scripts": {
+    "docs": "node_modules/.bin/jsdoc --configure .jsdoc.json --verbose"
+  }
+}
