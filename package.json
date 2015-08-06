@@ -10,7 +10,8 @@
   },
   "readmeFilename": "README.md",
   "dependencies": {
-    "express": "^4.13.1"
+    "express": "^4.13.1",
+    "glob": "^5.0.14"
   },
   "devDependencies": {
     "jsdoc": "^3.3.2",
