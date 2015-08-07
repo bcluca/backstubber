@@ -8,6 +8,7 @@ var https = require('https');
 var url = require('url');
 
 var VERBS = ['head', 'get', 'post', 'put', 'delete', 'all'];
+var RESERVED_ATTRS = ['_$$'];
 
 function Backstubber() {
     this.app = express();
@@ -23,18 +24,24 @@ function copyAttrs(src, dst) {
     });
 }
 
+function isReservedAttr(attr) {
+    return RESERVED_ATTRS.indexOf(attr) !== -1;
+}
+
+function merge(src, dst, stub) {
+    if (stub.hasOwnProperty('_$$')) {
+        copyAttrs(src || {}, dst);
+    }
+}
+
 function transform(stub, data) {
     var obj = {};
-    var merge = stub.hasOwnProperty('_$$');
-    var overwrite = !!stub._$$;
+    var resAttrWins = !!stub._$$;
 
-    if (merge) {
-        delete stub._$$;
-        copyAttrs(data || {}, obj);
-    }
+    merge(data, obj, stub);
 
     Object.keys(stub).forEach(function (attr) {
-        if (obj.hasOwnProperty(attr) && !overwrite) {
+        if (isReservedAttr(attr) || obj.hasOwnProperty(attr) && resAttrWins) {
             return;
         }
         var value = stub[attr];
