@@ -58,14 +58,21 @@ function fetch(req, service, callback) {
         res.on('data', function (chunk) {
             body += chunk;
         }).on('end', function () {
-            var data = body ? JSON.parse(body) : '';
+            var data = {};
+            if (body) {
+                try {
+                    data = JSON.parse(body);
+                } catch (ex) {
+                    console.warn('Could not parse JSON body for', options.method, options.path);
+                }
+            }
             callback(null, data);
         });
     }).on('error', callback).end();
 }
 
 function stubHandler(filePath, ext, service) {
-    var serveStub = function (stub, req, res) {
+    var serveStub = function (stub, res) {
         if (ext === '.js') {
             stub = transform(stub);
         }
@@ -81,10 +88,10 @@ function stubHandler(filePath, ext, service) {
                 } else {
                     // TODO: merge response with stub if needed
                 }
-                serveStub(stub, req, res);
+                serveStub(stub, res);
             });
         } else {
-            serveStub(stub, req, res);
+            serveStub(stub, res);
         }
     };
 }
@@ -92,9 +99,12 @@ function stubHandler(filePath, ext, service) {
 function proxy(service) {
     return function (req, res) {
         fetch(req, service, function (err, data) {
+            if (err) {
+                console.trace(err);
+            }
             sendData(data, res);
         });
-    }
+    };
 }
 
 Backstubber.prototype.mount = function (dir, service) {
