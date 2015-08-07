@@ -17,9 +17,26 @@ function factory() {
     return new Backstubber();
 }
 
-function transform(stub) {
+function copyAttrs(src, dst) {
+    Object.keys(src).forEach(function (attr) {
+        dst[attr] = src[attr];
+    });
+}
+
+function transform(stub, data) {
     var obj = {};
+    var merge = stub.hasOwnProperty('_$$');
+    var overwrite = !!stub._$$;
+
+    if (merge) {
+        delete stub._$$;
+        copyAttrs(data || {}, obj);
+    }
+
     Object.keys(stub).forEach(function (attr) {
+        if (obj.hasOwnProperty(attr) && !overwrite) {
+            return;
+        }
         var value = stub[attr];
         switch (typeof value) {
             case 'object':
@@ -72,9 +89,9 @@ function fetch(req, service, callback) {
 }
 
 function stubHandler(filePath, ext, service) {
-    var serveStub = function (stub, res) {
-        if (ext === '.js') {
-            stub = transform(stub);
+    var serveStub = function (stub, res, data) {
+        if (ext === '.js' || service) {
+            stub = transform(stub, data);
         }
         sendData(stub, res);
     };
@@ -85,10 +102,8 @@ function stubHandler(filePath, ext, service) {
             fetch(req, service, function (err, data) {
                 if (err) {
                     console.trace(err);
-                } else {
-                    // TODO: merge response with stub if needed
                 }
-                serveStub(stub, res);
+                serveStub(stub, res, data);
             });
         } else {
             serveStub(stub, res);
