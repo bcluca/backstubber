@@ -5,6 +5,6 @@ var backstubber = require('..');
 console.log(pkg.name + ' ' + pkg.version);
 
 backstubber()
-    .mount(__dirname + '/../example')
+    .mount(__dirname + '/../examples')
     .mount('*', 'https://api.github.com')
     .listen(3333);
