@@ -3,9 +3,9 @@ var backstubber = require('..');
 var port = process.env.PORT || 3333;
 
 backstubber()
-    .mount(__dirname + '/hello')
+    .mount(__dirname + '/simple')
     .mount(__dirname + '/merge', 'https://api.github.com')
-    .mount(__dirname + '/httpbin', 'http://httpbin.org')
+    .mount(__dirname + '/form', 'http://httpbin.org')
     .mount('*', 'https://api.github.com')
     .listen(port);
 
