@@ -38,25 +38,27 @@ In your endpoint directories, create JSON or JavaScript files named after the HT
 
     example/
     ├── app.js
-    ├── hello
-    │   ├── faker
-    │   │   └── get.js
-    │   ├── random
-    │   │   └── get.js
-    │   └── say
-    │       └── get.json
-    ├── httpbin
+    ├── form
     │   └── post
     │       └── post.json
-    └── merge
-        ├── orgs
-        │   └── github
-        │       └── get.js
-        ├── rate_limit
+    ├── merge
+    │   ├── orgs
+    │   │   └── github
+    │   │       └── get.js
+    │   ├── rate_limit
+    │   │   └── get.js
+    │   └── users
+    │       └── bcluca
+    │           ├── get.json
+    │           └── orgs
+    │               └── get.json
+    └── simple
+        ├── faker
         │   └── get.js
-        └── users
-            └── bcluca
-                └── get.json
+        ├── hello
+        │   └── get.json
+        └── random
+            └── get.js
 
 Merging
 -------
@@ -88,6 +90,14 @@ module.exports = {
 };
 ````
 
+`_$$` also works with arrays, e.g.:
+
+````json
+["_$$", {
+    "foo" : "bar"
+}]
+````
+
 Example app
 -----------
 
@@ -99,10 +109,11 @@ Test endpoints:
 
 Endpoint | Description
 --- | ---
-`GET /say`          | Simple _Hello!_ message
-`GET /random`       | Dynamic output using functions
-`GET /faker`        | Example using Faker generators
-`GET /`             | Simple proxy to the github API
-`GET /orgs/github`  | Merging example using JavaScript
-`GET /users/bcluca` | Merging example using JSON
-`GET /rate_limit`   | Example showing merging overrides
+`GET /hello`             | Simple _Hello!_ message
+`GET /random`            | Dynamic output using functions
+`GET /faker`             | Example using Faker generators
+`GET /`                  | Simple proxy to the github API
+`GET /orgs/github`       | Merging example using JavaScript
+`GET /users/bcluca`      | Merging example using JSON
+`GET /rate_limit`        | Example showing merging overrides
+`GET /users/bcluca/orgs` | Array merging example
