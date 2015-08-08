@@ -9,4 +9,4 @@ backstubber()
     .mount('*', 'https://api.github.com')
     .listen(port);
 
-console.log('%s %s listening on port %s', pkg.name, pkg.version, port);
+console.log('%s v%s listening on port %s', pkg.name, pkg.version, port);
