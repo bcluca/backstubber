@@ -142,7 +142,12 @@ Backstubber.prototype.mount = function (dir, service) {
             }
 
             var relativePath = path.relative(dir, filePath);
-            var endpoint = '/' + path.dirname(relativePath);
+            var relativeDir = path.dirname(relativePath);
+            var endpoint = '/';
+
+            if (relativeDir !== '.') {
+                endpoint += relativeDir;
+            }
 
             self.app[verb](endpoint, stubHandler(filePath, ext, service));
         });
