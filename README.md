@@ -31,7 +31,7 @@ backstubber()
     .mount(__dirname + '/hello')
     .mount(__dirname + '/merge', 'https://api.github.com')
     .mount('*', 'https://api.github.com')
-    .listen(port);
+    .listen(3333);
 ````
 
 In your endpoint directories, create JSON or JavaScript files named after the HTTP verbs you want your service to respond to, e.g.:
