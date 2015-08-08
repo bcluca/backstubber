@@ -1,6 +1,6 @@
 {
   "name": "backstubber",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Simple yet powerful backend stubs.",
   "main": "index.js",
   "repository": {
@@ -14,6 +14,7 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
+    "body-parser": "^1.13.3",
     "express": "^4.13.1",
     "glob": "^5.0.14"
   },
