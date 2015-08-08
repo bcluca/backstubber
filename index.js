@@ -18,45 +18,40 @@ function factory() {
     return new Backstubber();
 }
 
-function copyAttrs(src, dst) {
-    Object.keys(src).forEach(function (attr) {
-        dst[attr] = src[attr];
-    });
-}
-
 function isReservedAttr(attr) {
     return RESERVED_ATTRS.indexOf(attr) !== -1;
 }
 
-function merge(src, dst, stub) {
-    if (stub.hasOwnProperty('_$$')) {
-        copyAttrs(src || {}, dst);
-    }
-}
-
 function transform(stub, data) {
-    var obj = {};
+    var dst = {};
     var resAttrWins = !!stub._$$;
 
-    merge(data, obj, stub);
+    if (stub.hasOwnProperty('_$$')) {
+        dst = data;
+    }
 
     Object.keys(stub).forEach(function (attr) {
-        if (isReservedAttr(attr) || obj.hasOwnProperty(attr) && resAttrWins) {
+        if (isReservedAttr(attr)) {
             return;
         }
         var value = stub[attr];
+        var resValue = data && data[attr];
+
         switch (typeof value) {
             case 'object':
-                obj[attr] = transform(value);
+                dst[attr] = transform(value, resValue);
                 break;
             case 'function':
-                obj[attr] = value();
+                dst[attr] = value();
                 break;
             default:
-                obj[attr] = value;
+                if (!dst.hasOwnProperty(attr) || !resAttrWins) {
+                    dst[attr] = value;
+                }
         }
     });
-    return obj;
+
+    return dst;
 }
 
 function sendData(data, res) {
