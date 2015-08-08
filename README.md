@@ -45,6 +45,9 @@ In your endpoint directories, create JSON or JavaScript files named after the HT
     │   │   └── get.js
     │   └── say
     │       └── get.json
+    ├── httpbin
+    │   └── post
+    │       └── post.json
     └── merge
         ├── orgs
         │   └── github

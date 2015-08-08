@@ -1,6 +1,7 @@
 'use strict';
 
 var express = require('express');
+var bodyParser = require('body-parser');
 var glob = require('glob');
 var path = require('path');
 var http = require('http');
@@ -11,7 +12,12 @@ var VERBS = ['head', 'get', 'post', 'put', 'delete', 'all'];
 var RESERVED_ATTRS = ['_$$'];
 
 function Backstubber() {
-    this.app = express();
+    var app = express();
+
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
+
+    this.app = app;
 }
 
 function factory() {
@@ -26,7 +32,7 @@ function transform(stub, data) {
     var dst = {};
     var resAttrWins = !!stub._$$;
 
-    if (stub.hasOwnProperty('_$$')) {
+    if (stub.hasOwnProperty('_$$') && data) {
         dst = data;
     }
 
@@ -62,17 +68,27 @@ function sendData(data, res) {
 function fetch(req, service, callback) {
     var serviceUrl = url.parse(service);
     var proto = serviceUrl.protocol === 'https:' ? https : http;
+    var headers = { 'user-agent' : 'node.js' };
+    var bodyString = '';
+
+    if (req.body && Object.keys(req.body).length > 0) {
+        bodyString = JSON.stringify(req.body);
+        headers['Content-Type'] = 'application/json';
+        headers['Content-Length'] = bodyString.length;
+    }
+
     var options = {
         method   : req.method,
         hostname : serviceUrl.hostname,
         path     : req.url,
-        port     : req.port,
-        headers: {
-            'user-agent' : 'node.js'
-        }
+        headers  : headers
     };
 
-    proto.request(options, function (res) {
+    if (serviceUrl.port) {
+        options.port = serviceUrl.port;
+    }
+
+    var proxyReq = proto.request(options, function (res) {
         var body = '';
         res.on('data', function (chunk) {
             body += chunk;
@@ -87,7 +103,13 @@ function fetch(req, service, callback) {
             }
             callback(null, data);
         });
-    }).on('error', callback).end();
+    }).on('error', callback);
+
+    if (bodyString) {
+        proxyReq.write(bodyString);
+    }
+
+    proxyReq.end();
 }
 
 function stubHandler(filePath, ext, service) {
