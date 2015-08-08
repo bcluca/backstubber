@@ -9,7 +9,8 @@ var https = require('https');
 var url = require('url');
 
 var VERBS = ['head', 'get', 'post', 'put', 'delete', 'all'];
-var RESERVED_ATTRS = ['_$$'];
+var MERGE_OP = '_$$';
+var OPS = [MERGE_OP];
 
 function Backstubber() {
     var app = express();
@@ -24,20 +25,29 @@ function factory() {
     return new Backstubber();
 }
 
-function isReservedAttr(attr) {
-    return RESERVED_ATTRS.indexOf(attr) !== -1;
+function emptyVal(oa) {
+    return oa instanceof Array ? [] : {};
+}
+
+function has(av, oa) {
+    return oa instanceof Array ? oa.indexOf(av) !== -1 : oa.hasOwnProperty(av);
+}
+
+function opVal(av, oa) {
+    return oa instanceof Array ? false : !!oa[av];
+}
+
+function isOp(ai, oa) {
+    var op = oa instanceof Array ? oa[ai] : ai;
+    return OPS.indexOf(op) !== -1;
 }
 
 function transform(stub, data) {
-    var dst = {};
-    var resAttrWins = !!stub._$$;
-
-    if (stub.hasOwnProperty('_$$') && data) {
-        dst = data;
-    }
+    var dst = data && has(MERGE_OP, stub) ? data : emptyVal(stub);
+    var resAttrWins = opVal(MERGE_OP, stub);
 
     Object.keys(stub).forEach(function (attr) {
-        if (isReservedAttr(attr)) {
+        if (isOp(attr, stub)) {
             return;
         }
         var value = stub[attr];
