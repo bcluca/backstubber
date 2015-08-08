@@ -1,13 +1,17 @@
 {
   "name": "backstubber",
   "version": "0.1.0",
-  "private": true,
-  "author": "Luca Bernardo Ciddio",
-  "description": "Simple backend stubs.",
+  "description": "Simple yet powerful backend stubs.",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bcluca/backstubber.git"
+  },
   "bin": {
     "backstubber": "bin/cmd.js"
   },
+  "author": "Luca Bernardo Ciddio",
+  "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
     "express": "^4.13.1",
