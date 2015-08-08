@@ -24,5 +24,16 @@
   },
   "scripts": {
     "docs": "node_modules/.bin/jsdoc --configure .jsdoc.json --verbose"
-  }
+  },
+  "keywords": [
+    "json",
+    "service",
+    "backend",
+    "stub",
+    "mock",
+    "api",
+    "generators",
+    "fake",
+    "response"
+  ]
 }
