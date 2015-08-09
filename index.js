@@ -30,10 +30,12 @@ function emptyVal(oa) {
 }
 
 function has(av, oa) {
+    if (!oa) { return false; }
     return oa instanceof Array ? oa.indexOf(av) !== -1 : oa.hasOwnProperty(av);
 }
 
 function opVal(av, oa) {
+    if (!oa) { return false; }
     return oa instanceof Array ? false : !!oa[av];
 }
 
@@ -51,6 +53,8 @@ function setVal(value, ai, oa) {
 }
 
 function transform(stub, data) {
+    if (stub === null) { return null; }
+
     var dst = data && has(MERGE_OP, stub) ? data : emptyVal(stub);
     var resAttrWins = opVal(MERGE_OP, stub);
 
