@@ -106,7 +106,7 @@ You can remove attributes from the original response by setting them to `undefin
 ````javascript
 module.exports = {
     _$$ : false,
-    documentation_url : undefined // remove this attribute
+    documentation_url : undefined           // this attr will be removed
 };
 ````
 
@@ -116,10 +116,11 @@ You can also have full control over merging by referencing the original response
 
 ````javascript
 module.exports = {
-    // note that _$$ is not needed in this case
-    message : function (data) {
-        return 'Original message: ' + data; // use original attr data
-    }
+    _$$ : true,                             // response data takes priority
+    message : function (data) {             // custom merging, _$$ ignored
+        return 'Original message: ' + data; // uses original attr data
+    },
+    documentation_url : 'new url'           // _$$ not ignored here
 };
 ````
 

@@ -1,6 +1,7 @@
 module.exports = {
-    // note that _$$ is not needed in this case
-    message : function (data) {
-        return 'Original message: ' + data; // use original attr data
-    }
+    _$$ : true,                             // response data takes priority
+    message : function (data) {             // custom merging, _$$ ignored
+        return 'Original message: ' + data; // uses original attr data
+    },
+    documentation_url : 'new url'           // _$$ not ignored here
 };
