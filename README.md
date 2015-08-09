@@ -43,6 +43,8 @@ In your endpoint directories, create JSON or JavaScript files named after the HT
     │   └── post
     │       └── post.json
     ├── merge
+    │   ├── fn
+    │   │   └── get.js
     │   ├── orgs
     │   │   └── github
     │   │       └── get.js
@@ -115,8 +117,8 @@ You can also have full control over merging by referencing the original response
 ````javascript
 module.exports = {
     // note that _$$ is not needed in this case
-    message : function (res) {
-        return 'Original message: ' + res; // use original attr
+    message : function (data) {
+        return 'Original message: ' + data; // use original attr data
     }
 };
 ````
@@ -140,3 +142,4 @@ Endpoint | Description
 `GET /users/bcluca`      | Merging example using JSON
 `GET /rate_limit`        | Example showing merging overrides
 `GET /users/bcluca/orgs` | Array merging example
+`GET /fn`                | Using response data in functions
