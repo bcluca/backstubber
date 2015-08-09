@@ -63,14 +63,14 @@ function transform(stub, data) {
             return;
         }
         var value = stub[attr];
-        var resValue = data && data[attr];
+        var resValue = data ? data[attr] : undefined;
 
         switch (typeof value) {
             case 'object':
                 setVal(transform(value, resValue), attr, dst);
                 break;
             case 'function':
-                setVal(value(data[attr]), attr, dst);
+                setVal(value(resValue), attr, dst);
                 break;
             default:
                 if (!dst.hasOwnProperty(attr) || !resAttrWins) {
