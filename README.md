@@ -110,6 +110,17 @@ module.exports = {
 
 Note that this is only allowed in JavaScript stubs. If you are using JSON for your stubs and need this functionality, please use JavaScript instead.
 
+You can also have full control over merging by referencing the original response inside functions, e.g.:
+
+````javascript
+module.exports = {
+    // note that _$$ is not needed in this case
+    message : function (res) {
+        return 'Original message: ' + res; // use original attr
+    }
+};
+````
+
 Example app
 -----------
 

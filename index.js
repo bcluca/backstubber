@@ -70,7 +70,7 @@ function transform(stub, data) {
                 setVal(transform(value, resValue), attr, dst);
                 break;
             case 'function':
-                setVal(value(), attr, dst);
+                setVal(value(data[attr]), attr, dst);
                 break;
             default:
                 if (!dst.hasOwnProperty(attr) || !resAttrWins) {
