@@ -99,6 +99,17 @@ module.exports = {
 }]
 ````
 
+You can remove attributes from the original response by setting them to `undefined`, e.g.:
+
+````javascript
+module.exports = {
+    _$$ : false,
+    documentation_url : undefined // remove this attribute
+};
+````
+
+Note that this is only allowed in JavaScript stubs. If you are using JSON for your stubs and need this functionality, please use JavaScript instead.
+
 Example app
 -----------
 

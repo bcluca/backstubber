@@ -11,6 +11,7 @@ module.exports = {
     },
     rate : {
         _$$ : 0,
-        limit : 42
+        limit : 42,
+        remaining : undefined
     }
 };
