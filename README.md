@@ -28,8 +28,9 @@ Create your app with `backstubber()` and mount your endpoint directories, e.g.:
 var backstubber = require('backstubber');
 
 backstubber()
-    .mount(__dirname + '/hello')
+    .mount(__dirname + '/simple')
     .mount(__dirname + '/merge', 'https://api.github.com')
+    .mount(__dirname + '/form', 'http://httpbin.org')
     .mount('*', 'https://api.github.com')
     .listen(3333);
 ````
