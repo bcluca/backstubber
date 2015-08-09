@@ -42,6 +42,14 @@ function isOp(ai, oa) {
     return OPS.indexOf(op) !== -1;
 }
 
+function setVal(value, ai, oa) {
+    if (oa instanceof Array) {
+        oa.push(value);
+    } else {
+        oa[ai] = value;
+    }
+}
+
 function transform(stub, data) {
     var dst = data && has(MERGE_OP, stub) ? data : emptyVal(stub);
     var resAttrWins = opVal(MERGE_OP, stub);
@@ -55,14 +63,14 @@ function transform(stub, data) {
 
         switch (typeof value) {
             case 'object':
-                dst[attr] = transform(value, resValue);
+                setVal(transform(value, resValue), attr, dst);
                 break;
             case 'function':
-                dst[attr] = value();
+                setVal(value(), attr, dst);
                 break;
             default:
                 if (!dst.hasOwnProperty(attr) || !resAttrWins) {
-                    dst[attr] = value;
+                    setVal(value, attr, dst);
                 }
         }
     });
