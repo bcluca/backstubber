@@ -34,9 +34,13 @@ function has(av, oa) {
     return oa instanceof Array ? oa.indexOf(av) !== -1 : oa.hasOwnProperty(av);
 }
 
-function opVal(av, oa) {
+function opEval(op, data) {
+    return typeof op === 'function' ? op(data) : !!op;
+}
+
+function opVal(av, oa, data) {
     if (!oa) { return false; }
-    return oa instanceof Array ? false : !!oa[av];
+    return oa instanceof Array ? false : opEval(oa[av], data);
 }
 
 function isOp(ai, oa) {
@@ -57,7 +61,7 @@ function transform(stub, data) {
     if (typeof stub === 'function') { return stub(data); }
 
     var dst = data && has(MERGE_OP, stub) ? data : emptyVal(stub);
-    var resAttrWins = opVal(MERGE_OP, stub);
+    var resAttrWins = opVal(MERGE_OP, stub, data);
 
     Object.keys(stub).forEach(function (attr) {
         if (isOp(attr, stub)) {

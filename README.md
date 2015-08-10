@@ -111,6 +111,18 @@ module.exports = {
 };
 ````
 
+Functions can also be used to define merging behavior, e.g.:
+
+````javascript
+module.exports = {
+    _$$ : function (data) {
+        console.log(data);          // original data also available
+        return Math.random() < 0.5; // dynamic merge
+    },
+    message : 'Updated message'     // randomly merged
+};
+````
+
 Example app
 -----------
 
@@ -132,3 +144,4 @@ Endpoint | Description
 `GET /users/bcluca/orgs` | Array merging example
 `GET /fn`                | Using response data in functions
 `GET /events`            | Root handler example
+`GET /dynamic`           | Dynamic merging example
