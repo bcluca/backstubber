@@ -13,7 +13,7 @@ Install globally with `npm install -g backstubber` to use the `backstubber` CLI 
 Features
 --------
 
-Backstubber lets you easily stub your JSON backend, e.g.:
+Backstubber lets you easily stub any JSON backend, e.g.:
 
 * Serve JSON files directly from your file system
 * Generate dynamic data using functions
@@ -50,8 +50,47 @@ In your endpoint directories, create JSON or JavaScript files named after the HT
         └── random
             └── get.js
 
-Merging
--------
+Example `get.js`:
+
+````javascript
+{
+    "_$$" : false,
+    "awesome" : true,
+    "followers" : 424242
+}
+````
+
+Original output:
+
+````json
+{
+    "login": "bcluca",
+    "url": "https://api.github.com/users/bcluca",
+    "type": "User",
+    "name": "Luca Bernardo Ciddio",
+    "company": "YellowPages.com",
+    "followers": 11
+}
+````
+
+Stubbed output:
+
+````json
+{
+    "login": "bcluca",
+    "url": "https://api.github.com/users/bcluca",
+    "type": "User",
+    "name": "Luca Bernardo Ciddio",
+    "company": "YellowPages.com",
+    "followers": 424242,
+    "awesome": true
+}
+````
+
+The `followers` attribute is modified and a new `awesome` attribute is added.
+
+Merging with `_$$`
+------------------
 
 If you add a service url to your `mount()` calls, your stub will proxy all calls to an actual service and merge the responses. In your endpoint file, you can reference the original response with the `_$$` attribute.
 
