@@ -140,6 +140,8 @@ function fetch(req, service, callback) {
 }
 
 function stubHandler(filePath, ext, service) {
+    var stub = require(filePath);
+
     var serveStub = function (stub, res, data, req) {
         if (ext === '.js' || service) {
             stub = transform(stub, data, req);
@@ -148,7 +150,6 @@ function stubHandler(filePath, ext, service) {
     };
 
     return function (req, res) {
-        var stub = require(filePath);
         if (service) {
             fetch(req, service, function (err, data) {
                 if (err) {
