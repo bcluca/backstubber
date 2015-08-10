@@ -138,6 +138,7 @@ Endpoint | Description
 `GET /random`            | Dynamic output using functions
 `GET /faker`             | Example using Faker generators
 `GET /`                  | Simple proxy to the github API
+`POST /post`             | Simple `POST` example
 `GET /orgs/github`       | Merging example using JavaScript
 `GET /users/bcluca`      | Merging example using JSON
 `GET /rate_limit`        | Example showing merging overrides
