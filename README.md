@@ -144,3 +144,4 @@ Endpoint | Description
 `GET /rate_limit`        | Example showing merging overrides
 `GET /users/bcluca/orgs` | Array merging example
 `GET /fn`                | Using response data in functions
+`GET /events`            | Root handler example

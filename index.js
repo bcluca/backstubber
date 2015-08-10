@@ -54,6 +54,7 @@ function setVal(value, ai, oa) {
 
 function transform(stub, data) {
     if (stub === null) { return null; }
+    if (typeof stub === 'function') { return stub(data); }
 
     var dst = data && has(MERGE_OP, stub) ? data : emptyVal(stub);
     var resAttrWins = opVal(MERGE_OP, stub);
