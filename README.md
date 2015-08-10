@@ -22,7 +22,7 @@ Backstubber lets you easily stub any JSON backend, e.g.:
 Usage
 -----
 
-Create your app with `backstubber()` and mount your endpoint directories, e.g.:
+Create your app with `backstubber()` and mount your fake endpoints, optionally proxying all unhandled calls to a real service, e.g.:
 
 ````javascript
 var backstubber = require('backstubber');
@@ -31,11 +31,11 @@ backstubber()
     .mount(__dirname + '/simple')
     .mount(__dirname + '/merge', 'https://api.github.com')
     .mount(__dirname + '/form', 'http://httpbin.org')
-    .mount('*', 'https://api.github.com')
+    .proxy('*', 'https://api.github.com')
     .listen(3333);
 ````
 
-In your endpoint directories, create JSON or JavaScript files named after the HTTP verbs you want your service to respond to, e.g.:
+In each endpoint directory, create JSON or JavaScript files named after the HTTP verbs you want your service to respond to, e.g.:
 
     example/
     ├── app.js

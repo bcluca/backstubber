@@ -174,34 +174,53 @@ function proxy(service) {
     };
 }
 
-Backstubber.prototype.mount = function (dir, service) {
-    var self = this;
-    if (dir === '*') {
-        if (service) {
-            this.app.all('*', proxy(service));
-        } else {
-            throw new Error('service required in proxy mode');
+function requiredArgs() {
+    var names = Array.prototype.slice.call(arguments);
+    var values = names.pop();
+
+    names.forEach(function (name, i) {
+        var value = values[i];
+        if (name !== null && (typeof value === 'undefined' || value === null)) {
+            throw new Error("missing '" + name + "' argument");
         }
-    } else {
-        glob.sync(dir + '/**/*.@(json|js)').forEach(function (filePath) {
-            var ext = path.extname(filePath);
-            var verb = path.basename(filePath, ext);
+    });
+}
 
-            if (VERBS.indexOf(verb) === -1) {
-                throw new Error("unknown verb '" + verb + "'");
-            }
+Backstubber.prototype.proxy = function (path, service) {
+    requiredArgs('path', 'service', arguments);
+    this.app.all(path, proxy(service));
+    return this;
+};
 
-            var relativePath = path.relative(dir, filePath);
-            var relativeDir = path.dirname(relativePath);
-            var endpoint = '/';
+Backstubber.prototype.mount = function (dir, service) {
+    requiredArgs('dir', arguments);
 
-            if (relativeDir !== '.') {
-                endpoint += relativeDir;
-            }
-
-            self.app[verb](endpoint, stubHandler(filePath, ext, service));
-        });
+    if (dir === '*') {
+        // For backward compatibility with v0.1.9 and below
+        this.proxy('*', service);
+        return this;
     }
+
+    var self = this;
+    glob.sync(dir + '/**/*.@(json|js)').forEach(function (filePath) {
+        var ext = path.extname(filePath);
+        var verb = path.basename(filePath, ext);
+
+        if (VERBS.indexOf(verb) === -1) {
+            throw new Error("unknown verb '" + verb + "'");
+        }
+
+        var relativePath = path.relative(dir, filePath);
+        var relativeDir = path.dirname(relativePath);
+        var endpoint = '/';
+
+        if (relativeDir !== '.') {
+            endpoint += relativeDir;
+        }
+
+        self.app[verb](endpoint, stubHandler(filePath, ext, service));
+    });
+
     return this;
 };
 

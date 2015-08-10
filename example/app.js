@@ -6,7 +6,7 @@ backstubber()
     .mount(__dirname + '/simple')
     .mount(__dirname + '/merge', 'https://api.github.com')
     .mount(__dirname + '/form', 'http://httpbin.org')
-    .mount('*', 'https://api.github.com')
+    .proxy('*', 'https://api.github.com')
     .listen(port);
 
 console.log('%s v%s listening on port %s', pkg.name, pkg.version, port);
