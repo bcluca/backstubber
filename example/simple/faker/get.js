@@ -3,5 +3,5 @@
 var faker = require('faker');
 
 module.exports = {
-    name : faker.name.findName
+    name : faker.name.firstName
 };
