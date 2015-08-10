@@ -123,6 +123,19 @@ module.exports = {
 };
 ````
 
+In addition to the current `data` chunk, you can use the original request object `req` inside functions, e.g.:
+
+````javascript
+module.exports = {
+    userAgent : function (data, req) {
+        return req.headers['user-agent'];
+    },
+    query : function (data, req) {
+        return req.query;
+    }
+};
+````
+
 Example app
 -----------
 
@@ -146,3 +159,4 @@ Endpoint | Description
 `GET /fn`                | Using response data in functions
 `GET /events`            | Root handler example
 `GET /dynamic`           | Dynamic merging example
+`GET /req?foo=bar`       | Example using the request object

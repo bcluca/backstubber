@@ -56,9 +56,9 @@ function setVal(value, ai, oa) {
     }
 }
 
-function transform(stub, data) {
+function transform(stub, data, req) {
     if (stub === null) { return null; }
-    if (typeof stub === 'function') { return stub(data); }
+    if (typeof stub === 'function') { return stub(data, req); }
 
     var dst = data && has(MERGE_OP, stub) ? data : emptyVal(stub);
     var resAttrWins = opVal(MERGE_OP, stub, data);
@@ -68,14 +68,14 @@ function transform(stub, data) {
             return;
         }
         var value = stub[attr];
-        var resValue = data ? data[attr] : undefined;
+        var resValue = data ? data[attr] : null;
 
         switch (typeof value) {
             case 'object':
-                setVal(transform(value, resValue), attr, dst);
+                setVal(transform(value, resValue, req), attr, dst);
                 break;
             case 'function':
-                setVal(value(resValue), attr, dst);
+                setVal(value(resValue, req), attr, dst);
                 break;
             default:
                 if (!dst.hasOwnProperty(attr) || !resAttrWins) {
@@ -140,9 +140,9 @@ function fetch(req, service, callback) {
 }
 
 function stubHandler(filePath, ext, service) {
-    var serveStub = function (stub, res, data) {
+    var serveStub = function (stub, res, data, req) {
         if (ext === '.js' || service) {
-            stub = transform(stub, data);
+            stub = transform(stub, data, req);
         }
         sendData(stub, res);
     };
@@ -154,10 +154,10 @@ function stubHandler(filePath, ext, service) {
                 if (err) {
                     console.trace(err);
                 }
-                serveStub(stub, res, data);
+                serveStub(stub, res, data, req);
             });
         } else {
-            serveStub(stub, res);
+            serveStub(stub, res, null, req);
         }
     };
 }
