@@ -123,6 +123,9 @@ module.exports = {
 };
 ````
 
+Request object
+--------------
+
 In addition to the current `data` chunk, you can use the original request object `req` inside functions, e.g.:
 
 ````javascript
