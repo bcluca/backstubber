@@ -42,19 +42,6 @@ In your endpoint directories, create JSON or JavaScript files named after the HT
     ├── form
     │   └── post
     │       └── post.json
-    ├── merge
-    │   ├── fn
-    │   │   └── get.js
-    │   ├── orgs
-    │   │   └── github
-    │   │       └── get.js
-    │   ├── rate_limit
-    │   │   └── get.js
-    │   └── users
-    │       └── bcluca
-    │           ├── get.json
-    │           └── orgs
-    │               └── get.json
     └── simple
         ├── faker
         │   └── get.js
