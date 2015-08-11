@@ -7,6 +7,7 @@ var path = require('path');
 var http = require('http');
 var https = require('https');
 var url = require('url');
+var extend = require('extend');
 
 var VERBS = ['head', 'get', 'post', 'put', 'delete', 'all'];
 var MERGE_OP = '_$$';
@@ -87,21 +88,40 @@ function transform(stub, data, req) {
     return dst;
 }
 
-function sendData(data, res) {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(data);
+function sendData(data, res, originalRes) {
+    var headers = { 'content-type': 'application/json' };
+    var status = 200;
+    data = data !== null ? JSON.stringify(data) : '';
+
+    if (originalRes) {
+        extend(headers, originalRes.headers);
+        status = originalRes.statusCode;
+    }
+
+    if (data) {
+        headers['content-length'] = data.length;
+    }
+
+    res.writeHead(status, headers);
+    res.end(data);
 }
 
 function fetch(req, service, callback) {
     var serviceUrl = url.parse(service);
     var proto = serviceUrl.protocol === 'https:' ? https : http;
-    var headers = { 'user-agent' : 'node.js' };
     var bodyString = '';
+    var headers = extend({ 'user-agent': 'node.js' }, req.headers, {
+        host              : serviceUrl.hostname,
+        accept            : 'application/json',
+        'accept-encoding' : 'utf-8'
+    });
 
     if (req.body && Object.keys(req.body).length > 0) {
         bodyString = JSON.stringify(req.body);
-        headers['Content-Type'] = 'application/json';
-        headers['Content-Length'] = bodyString.length;
+        extend(headers, {
+            'content-type'   : 'application/json',
+            'content-length' : bodyString.length
+        });
     }
 
     var options = {
@@ -120,7 +140,7 @@ function fetch(req, service, callback) {
         res.on('data', function (chunk) {
             body += chunk;
         }).on('end', function () {
-            var data = {};
+            var data = null;
             if (body) {
                 try {
                     data = JSON.parse(body);
@@ -128,7 +148,7 @@ function fetch(req, service, callback) {
                     console.warn('Could not parse JSON body for', options.method, options.path);
                 }
             }
-            callback(null, data);
+            callback(null, data, res);
         });
     }).on('error', callback);
 
@@ -142,20 +162,20 @@ function fetch(req, service, callback) {
 function stubHandler(filePath, ext, service) {
     var stub = require(filePath);
 
-    var serveStub = function (stub, res, data, req) {
+    var serveStub = function (stub, res, data, req, originalRes) {
         if (ext === '.js' || service) {
             stub = transform(stub, data, req);
         }
-        sendData(stub, res);
+        sendData(stub, res, originalRes);
     };
 
     return function (req, res) {
         if (service) {
-            fetch(req, service, function (err, data) {
+            fetch(req, service, function (err, data, originalRes) {
                 if (err) {
                     console.trace(err);
                 }
-                serveStub(stub, res, data, req);
+                serveStub(stub, res, data, req, originalRes);
             });
         } else {
             serveStub(stub, res, null, req);
@@ -165,11 +185,11 @@ function stubHandler(filePath, ext, service) {
 
 function proxy(service) {
     return function (req, res) {
-        fetch(req, service, function (err, data) {
+        fetch(req, service, function (err, data, originalRes) {
             if (err) {
                 console.trace(err);
             }
-            sendData(data, res);
+            sendData(data, res, originalRes);
         });
     };
 }
