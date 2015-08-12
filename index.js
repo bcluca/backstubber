@@ -106,7 +106,7 @@ function transform(stub, data, req) {
 }
 
 function sendData(data, res, originalRes) {
-    var headers = { 'content-type': 'application/json' };
+    var headers = { 'content-type': 'application/json;charset=utf-8' };
     var status = 200;
     data = data !== null ? JSON.stringify(data) : '';
 
@@ -116,11 +116,11 @@ function sendData(data, res, originalRes) {
     }
 
     if (data) {
-        headers['content-length'] = data.length;
+        headers['content-length'] = Buffer.byteLength(data, 'utf8');
     }
 
     res.writeHead(status, headers);
-    res.end(data);
+    res.end(data, 'utf8');
 }
 
 function fetch(req, service, callback) {
@@ -137,7 +137,7 @@ function fetch(req, service, callback) {
         bodyString = JSON.stringify(req.body);
         extend(headers, {
             'content-type'   : 'application/json',
-            'content-length' : bodyString.length
+            'content-length' : Buffer.byteLength(bodyString, 'utf8')
         });
     }
 
@@ -154,6 +154,7 @@ function fetch(req, service, callback) {
 
     var proxyReq = proto.request(options, function (res) {
         var body = '';
+        res.setEncoding('utf8');
         res.on('data', function (chunk) {
             body += chunk;
         }).on('end', function () {
