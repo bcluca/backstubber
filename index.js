@@ -1,3 +1,10 @@
+/**
+* Simple yet powerful backend stubs.
+* @module backstubber
+* @version v0.1.11
+* @license MIT
+* @author {@link https://github.com/bcluca|Luca Bernardo Ciddio}
+*/
 'use strict';
 
 var express = require('express');
@@ -13,6 +20,12 @@ var VERBS = ['head', 'get', 'post', 'put', 'delete', 'all'];
 var MERGE_OP = '_$$';
 var OPS = [MERGE_OP];
 
+/**
+* Creates a new {@link module:backstubber~Backstubber|Backstubber} object.
+* @private
+* @constructor
+* @returns {Backstubber} A new {@link module:backstubber~Backstubber|Backstubber} instance.
+*/
 function Backstubber() {
     var app = express();
 
@@ -22,9 +35,13 @@ function Backstubber() {
     this.app = app;
 }
 
-function factory() {
+/**
+* Factory method returning a new {@link module:backstubber~Backstubber|Backstubber} instance.
+* @returns A new {@link module:backstubber~Backstubber|Backstubber} instance.
+*/
+module.exports = function () {
     return new Backstubber();
-}
+};
 
 function emptyVal(oa) {
     return oa instanceof Array ? [] : {};
@@ -206,12 +223,24 @@ function requiredArgs() {
     });
 }
 
+/**
+* Proxies all unstubbed calls to an external service.
+* @param {string} path - Endpoint path, usually set to `*` to proxy all unhandled routes.
+* @param {string} service - External service URL.
+* @returns {Backstubber} The current {@link module:backstubber~Backstubber|Backstubber} instance, for chaining.
+*/
 Backstubber.prototype.proxy = function (path, service) {
     requiredArgs('path', 'service', arguments);
     this.app.all(path, proxy(service));
     return this;
 };
 
+/**
+* Mounts a directory containing stub definitions. Also provides optional merging with the response from an external service.
+* @param {string} dir - Directory where the stubs are defined.
+* @param {string} [service] - External service URL.
+* @returns {Backstubber} The current {@link module:backstubber~Backstubber|Backstubber} instance, for chaining.
+*/
 Backstubber.prototype.mount = function (dir, service) {
     requiredArgs('dir', arguments);
 
@@ -244,9 +273,16 @@ Backstubber.prototype.mount = function (dir, service) {
     return this;
 };
 
+/**
+* Binds and listens for connections on the specified host and port. This method is identical to Node’s
+* {@link https://nodejs.org/api/http.html#http_server_listen_port_hostname_backlog_callback|http.Server.listen()}.
+* @param {number} port - The port this service will listen on.
+* @param {string} [hostname=Any IPv4 address.] - The service hostname.
+* @param {number} [backlog=511] - The maximum length of the queue of pending connections.
+* @param {function} [callback] - Callback function to be called when this server starts listening.
+* @returns {Backstubber} The current {@link module:backstubber~Backstubber|Backstubber} instance, for chaining.
+*/
 Backstubber.prototype.listen = function () {
     this.app.listen.apply(this.app, arguments);
     return this;
 };
-
-module.exports = factory;
