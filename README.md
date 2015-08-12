@@ -50,9 +50,9 @@ In each endpoint directory, create JSON or JavaScript files named after the HTTP
         └── random
             └── get.js
 
-Example `get.js`:
+Example `get.json`:
 
-````javascript
+````json
 {
     "_$$" : false,
     "awesome" : true,
