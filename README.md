@@ -19,6 +19,11 @@ Backstubber lets you easily stub any JSON backend, e.g.:
 * Generate dynamic data using functions
 * Merge actual service responses with your stubs, adding or modifying attributes
 
+API docs
+--------
+
+You can find this README and the latest API docs at [bcluca.github.io/backstubber](http://bcluca.github.io/backstubber).
+
 Usage
 -----
 
@@ -109,6 +114,12 @@ Examples:
     $ backstubber -m ./example/simple/ -m ./example/merge,https://api.github.com -p 8080
     $ backstubber --mount=./example/simple/ --port=3000
     $ backstubber -m ./example/merge,https://api.github.com -P *,https://api.github.com
+
+##### Note
+
+If you are using the `backstubber` binary and your stubs require any packages, you will need to install them globally.
+
+For instance, if you want to mount the stubs defined in `./example/simple/`, please run `npm install -g faker` first.
 
 Merging with `_$$`
 ------------------
