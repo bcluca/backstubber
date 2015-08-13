@@ -8,13 +8,14 @@
     "url": "git://github.com/bcluca/backstubber.git"
   },
   "bin": {
-    "backstubber": "bin/cmd.js"
+    "backstubber": "bin/backstubber.js"
   },
   "author": "Luca Bernardo Ciddio",
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
     "body-parser": "^1.13.3",
+    "commander": "^2.8.1",
     "express": "^4.13.1",
     "extend": "^3.0.0",
     "glob": "^5.0.14"

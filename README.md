@@ -8,7 +8,7 @@ Installation
 
     $ npm install backstubber
 
-Install globally with `npm install -g backstubber` to use the `backstubber` CLI binary (coming soon).
+Install globally with `npm install -g backstubber` to use the `backstubber` CLI binary.
 
 Features
 --------
@@ -21,6 +21,8 @@ Backstubber lets you easily stub any JSON backend, e.g.:
 
 Usage
 -----
+
+#### As a library
 
 Create your app with `backstubber()` and mount your fake endpoints, optionally proxying all unhandled calls to a real service, e.g.:
 
@@ -88,6 +90,25 @@ Stubbed output:
 ````
 
 The `followers` attribute is modified and a new `awesome` attribute is added.
+
+#### As a binary
+
+    Usage: backstubber [options]
+
+    Options:
+
+      -h, --help                        output usage information
+      -V, --version                     output the version number
+      -m, --mount <dir[,service]>       mount stubs directory, with optional service
+      -P, --proxy <endpoint|*,service>  proxy unhandled calls (use * to catch all)
+      -p, --port <port>                 set the port (defaults to 3333)
+
+Examples:
+
+    $ backstubber -m ./example/simple/
+    $ backstubber -m ./example/simple/ -m ./example/merge,https://api.github.com -p 8080
+    $ backstubber --mount=./example/simple/ --port=3000
+    $ backstubber -m ./example/merge,https://api.github.com -P *,https://api.github.com
 
 Merging with `_$$`
 ------------------
