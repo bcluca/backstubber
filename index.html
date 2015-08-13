@@ -48,14 +48,15 @@
 
     <section class="readme">
         <article><h1>Backstubber</h1><p>Simple yet powerful backend stubs.</p>
-<h2>Installation</h2><pre class="prettyprint source"><code>$ npm install backstubber</code></pre><p>Install globally with <code>npm install -g backstubber</code> to use the <code>backstubber</code> CLI binary (coming soon).</p>
+<h2>Installation</h2><pre class="prettyprint source"><code>$ npm install backstubber</code></pre><p>Install globally with <code>npm install -g backstubber</code> to use the <code>backstubber</code> CLI binary.</p>
 <h2>Features</h2><p>Backstubber lets you easily stub any JSON backend, e.g.:</p>
 <ul>
 <li>Serve JSON files directly from your file system</li>
 <li>Generate dynamic data using functions</li>
 <li>Merge actual service responses with your stubs, adding or modifying attributes</li>
 </ul>
-<h2>Usage</h2><p>Create your app with <code>backstubber()</code> and mount your fake endpoints, optionally proxying all unhandled calls to a real service, e.g.:</p>
+<h2>API docs</h2><p>You can find this README and the latest API docs at <a href="http://bcluca.github.io/backstubber">bcluca.github.io/backstubber</a>.</p>
+<h2>Usage</h2><h4>As a library</h4><p>Create your app with <code>backstubber()</code> and mount your fake endpoints, optionally proxying all unhandled calls to a real service, e.g.:</p>
 <pre class="prettyprint source lang-javascript"><code>var backstubber = require('backstubber');
 
 backstubber()
@@ -98,6 +99,20 @@ backstubber()
     &quot;followers&quot;: 424242,
     &quot;awesome&quot;: true
 }</code></pre><p>The <code>followers</code> attribute is modified and a new <code>awesome</code> attribute is added.</p>
+<h4>As a binary</h4><pre class="prettyprint source"><code>Usage: backstubber [options]
+
+Options:
+
+  -h, --help                        output usage information
+  -V, --version                     output the version number
+  -m, --mount &lt;dir[,service]>       mount stubs directory, with optional service
+  -P, --proxy &lt;endpoint|*,service>  proxy unhandled calls (use * to catch all)
+  -p, --port &lt;port>                 set the port (defaults to 3333)</code></pre><p>Examples:</p>
+<pre class="prettyprint source"><code>$ backstubber -m ./example/simple/
+$ backstubber -m ./example/simple/ -m ./example/merge,https://api.github.com -p 8080
+$ backstubber --mount=./example/simple/ --port=3000
+$ backstubber -m ./example/merge,https://api.github.com -P *,https://api.github.com</code></pre><h5>Note</h5><p>If you are using the <code>backstubber</code> binary and your stubs require any packages, you will need to install them globally.</p>
+<p>For instance, if you want to mount the stubs defined in <code>./example/simple/</code>, please run <code>npm install -g faker</code> first.</p>
 <h2>Merging with <code>_$$</code></h2><p>If you add a service url to your <code>mount()</code> calls, your stub will proxy all calls to an actual service and merge the responses. In your endpoint file, you can reference the original response with the <code>_$$</code> attribute.</p>
 <p>Setting <code>_$$</code> to a falsy value (e.g. <code>false</code> or <code>0</code>) merges your stub data on top of the original response. A truthy value (e.g. <code>true</code> or <code>1</code>) makes the original attributes &quot;win&quot; over your stub data.</p>
 <p><code>_$$</code> is falsy by default, meaning that all stubs will overwrite the original response if no <code>_$$</code> attributes are present.</p>
@@ -223,7 +238,7 @@ backstubber()
 <br class="clear">
 
 <footer>
-    Documentation generated at Wed Aug 12 2015 18:07:15 GMT-0700 (PDT)
+    Documentation generated at Thu Aug 13 2015 02:23:09 GMT-0700 (PDT)
 </footer>
 
 <script>prettyPrint();</script>
