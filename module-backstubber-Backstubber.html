@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module-backstubber-Backstubber.html">Backstubber</a><ul class='methods'><li data-type='method'><a href="module-backstubber-Backstubber.html#listen">listen</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#mount">mount</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#proxy">proxy</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-backstubber.html">backstubber</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module-backstubber-Backstubber.html">Backstubber</a><ul class='methods'><li data-type='method'><a href="module-backstubber-Backstubber.html#all">all</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#delete">delete</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#get">get</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#head">head</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#listen">listen</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#mount">mount</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#post">post</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#proxy">proxy</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#put">put</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-backstubber.html">backstubber</a></li></ul>
 </nav>
 
 <div id="main">
@@ -172,6 +172,914 @@
 
     
         <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="all"><span class="type-signature"></span>all<span class="signature">(route, stub, service<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Backstubber}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Stubs an individual route for all HTTP verbs, optionally merging with the response from an external service.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>route</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Endpoint route.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>stub</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Stub definition.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>service</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Service URL.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line334">line 334</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The current <a href="module-backstubber-Backstubber.html"><code>Backstubber</code></a> instance, for chaining.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Backstubber</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="delete"><span class="type-signature"></span>delete<span class="signature">(route, stub, service<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Backstubber}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Stubs an individual <code>DELETE</code> route, optionally merging with the response from an external service.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>route</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Endpoint route.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>stub</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Stub definition.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>service</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Service URL.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line324">line 324</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The current <a href="module-backstubber-Backstubber.html"><code>Backstubber</code></a> instance, for chaining.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Backstubber</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(route, stub, service<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Backstubber}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Stubs an individual <code>GET</code> route, optionally merging with the response from an external service.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>route</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Endpoint route.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>stub</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Stub definition.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>service</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Service URL.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line294">line 294</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The current <a href="module-backstubber-Backstubber.html"><code>Backstubber</code></a> instance, for chaining.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Backstubber</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="head"><span class="type-signature"></span>head<span class="signature">(route, stub, service<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Backstubber}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Stubs an individual <code>HEAD</code> route, optionally merging with the response from an external service.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>route</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Endpoint route.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>stub</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Stub definition.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>service</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Service URL.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line284">line 284</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The current <a href="module-backstubber-Backstubber.html"><code>Backstubber</code></a> instance, for chaining.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Backstubber</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
 
         
             
@@ -410,7 +1318,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line286">line 286</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line353">line 353</a>
     </li></ul></dd>
     
 
@@ -606,7 +1514,234 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line245">line 245</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line243">line 243</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The current <a href="module-backstubber-Backstubber.html"><code>Backstubber</code></a> instance, for chaining.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Backstubber</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="post"><span class="type-signature"></span>post<span class="signature">(route, stub, service<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Backstubber}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Stubs an individual <code>POST</code> route, optionally merging with the response from an external service.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>route</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Endpoint route.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>stub</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Stub definition.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>service</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Service URL.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line304">line 304</a>
     </li></ul></dd>
     
 
@@ -782,7 +1917,234 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line233">line 233</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line231">line 231</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The current <a href="module-backstubber-Backstubber.html"><code>Backstubber</code></a> instance, for chaining.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Backstubber</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="put"><span class="type-signature"></span>put<span class="signature">(route, stub, service<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Backstubber}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Stubs an individual <code>PUT</code> route, optionally merging with the response from an external service.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>route</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Endpoint route.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>stub</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Stub definition.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>service</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Service URL.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line314">line 314</a>
     </li></ul></dd>
     
 
@@ -848,7 +2210,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated at Thu Aug 13 2015 02:23:09 GMT-0700 (PDT)
+    Documentation generated at Thu Aug 13 2015 17:19:10 GMT-0700 (PDT)
 </footer>
 
 <script>prettyPrint();</script>

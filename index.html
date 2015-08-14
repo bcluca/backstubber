@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module-backstubber-Backstubber.html">Backstubber</a><ul class='methods'><li data-type='method'><a href="module-backstubber-Backstubber.html#listen">listen</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#mount">mount</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#proxy">proxy</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-backstubber.html">backstubber</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module-backstubber-Backstubber.html">Backstubber</a><ul class='methods'><li data-type='method'><a href="module-backstubber-Backstubber.html#all">all</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#delete">delete</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#get">get</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#head">head</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#listen">listen</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#mount">mount</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#post">post</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#proxy">proxy</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#put">put</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-backstubber.html">backstubber</a></li></ul>
 </nav>
 
 <div id="main">
@@ -99,7 +99,14 @@ backstubber()
     &quot;followers&quot;: 424242,
     &quot;awesome&quot;: true
 }</code></pre><p>The <code>followers</code> attribute is modified and a new <code>awesome</code> attribute is added.</p>
-<h4>As a binary</h4><pre class="prettyprint source"><code>Usage: backstubber [options]
+<p>You can also stub individual routes inline, e.g.:</p>
+<pre class="prettyprint source lang-javascript"><code>var backstubber = require('backstubber');
+
+backstubber()
+    .get('/foo/bar', { foo: 'bar' })
+    .post('/test', { test: true })
+    .all('/baz', { _$$: true, baz: true }, 'https://api.github.com')
+    .listen(3333);</code></pre><h4>As a binary</h4><pre class="prettyprint source"><code>Usage: backstubber [options]
 
 Options:
 
@@ -238,7 +245,7 @@ $ backstubber -m ./example/merge,https://api.github.com -P *,https://api.github.
 <br class="clear">
 
 <footer>
-    Documentation generated at Thu Aug 13 2015 02:23:09 GMT-0700 (PDT)
+    Documentation generated at Thu Aug 13 2015 17:19:10 GMT-0700 (PDT)
 </footer>
 
 <script>prettyPrint();</script>

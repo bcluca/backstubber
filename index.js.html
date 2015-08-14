@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module-backstubber-Backstubber.html">Backstubber</a><ul class='methods'><li data-type='method'><a href="module-backstubber-Backstubber.html#listen">listen</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#mount">mount</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#proxy">proxy</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-backstubber.html">backstubber</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module-backstubber-Backstubber.html">Backstubber</a><ul class='methods'><li data-type='method'><a href="module-backstubber-Backstubber.html#all">all</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#delete">delete</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#get">get</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#head">head</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#listen">listen</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#mount">mount</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#post">post</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#proxy">proxy</a></li><li data-type='method'><a href="module-backstubber-Backstubber.html#put">put</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-backstubber.html">backstubber</a></li></ul>
 </nav>
 
 <div id="main">
@@ -41,7 +41,7 @@
             <pre class="prettyprint source linenums"><code>/**
 * Simple yet powerful backend stubs.
 * @module backstubber
-* @version v0.1.15
+* @version v0.1.16
 * @license MIT
 * @author {@link https://github.com/bcluca|Luca Bernardo Ciddio}
 */
@@ -217,11 +217,9 @@ function fetch(req, service, callback) {
     proxyReq.end();
 }
 
-function stubHandler(filePath, ext, service) {
-    var stub = require(filePath);
-
+function stubHandler(stub, format, service) {
     var serveStub = function (stub, res, data, req, originalRes) {
-        if (ext === '.js' || service) {
+        if (format === 'js' || service) {
             stub = transform(stub, data, req);
         }
         sendData(stub, res, originalRes);
@@ -293,26 +291,95 @@ Backstubber.prototype.mount = function (dir, service) {
 
     var self = this;
     glob.sync(dir + '/**/*.@(json|js)').forEach(function (filePath) {
-        var ext = path.extname(filePath);
-        var verb = path.basename(filePath, ext);
+        var ext    = path.extname(filePath);
+        var verb   = path.basename(filePath, ext);
 
         if (VERBS.indexOf(verb) === -1) {
             throw new Error("unknown verb '" + verb + "'");
         }
 
         var relativePath = path.relative(dir, filePath);
-        var relativeDir = path.dirname(relativePath);
-        var endpoint = '/';
+        var relativeDir  = path.dirname(relativePath);
+        var endpoint     = '/';
+        var stub         = require(filePath);
+        var format       = ext.substr(1);
 
         if (relativeDir !== '.') {
             endpoint += relativeDir;
         }
 
-        self.app[verb](endpoint, stubHandler(filePath, ext, service));
+        self.app[verb](endpoint, stubHandler(stub, format, service));
     });
 
     return this;
 };
+
+function stubVerbFn(verb) {
+    return function (route, stub, service) {
+        this.app[verb](route, stubHandler(stub, 'js', service));
+        return this;
+    };
+}
+
+/**
+* Stubs an individual `HEAD` route, optionally merging with the response from an external service.
+* @function module:backstubber~Backstubber#head
+* @param {string} route - Endpoint route.
+* @param {object} stub - Stub definition.
+* @param {string} [service] - Service URL.
+* @returns {Backstubber} The current {@link module:backstubber~Backstubber|Backstubber} instance, for chaining.
+*/
+Backstubber.prototype.head = stubVerbFn('head');
+
+/**
+* Stubs an individual `GET` route, optionally merging with the response from an external service.
+* @function module:backstubber~Backstubber#get
+* @param {string} route - Endpoint route.
+* @param {object} stub - Stub definition.
+* @param {string} [service] - Service URL.
+* @returns {Backstubber} The current {@link module:backstubber~Backstubber|Backstubber} instance, for chaining.
+*/
+Backstubber.prototype.get = stubVerbFn('get');
+
+/**
+* Stubs an individual `POST` route, optionally merging with the response from an external service.
+* @function module:backstubber~Backstubber#post
+* @param {string} route - Endpoint route.
+* @param {object} stub - Stub definition.
+* @param {string} [service] - Service URL.
+* @returns {Backstubber} The current {@link module:backstubber~Backstubber|Backstubber} instance, for chaining.
+*/
+Backstubber.prototype.post = stubVerbFn('post');
+
+/**
+* Stubs an individual `PUT` route, optionally merging with the response from an external service.
+* @function module:backstubber~Backstubber#put
+* @param {string} route - Endpoint route.
+* @param {object} stub - Stub definition.
+* @param {string} [service] - Service URL.
+* @returns {Backstubber} The current {@link module:backstubber~Backstubber|Backstubber} instance, for chaining.
+*/
+Backstubber.prototype.put = stubVerbFn('put');
+
+/**
+* Stubs an individual `DELETE` route, optionally merging with the response from an external service.
+* @function module:backstubber~Backstubber#delete
+* @param {string} route - Endpoint route.
+* @param {object} stub - Stub definition.
+* @param {string} [service] - Service URL.
+* @returns {Backstubber} The current {@link module:backstubber~Backstubber|Backstubber} instance, for chaining.
+*/
+Backstubber.prototype.delete = stubVerbFn('delete');
+
+/**
+* Stubs an individual route for all HTTP verbs, optionally merging with the response from an external service.
+* @function module:backstubber~Backstubber#all
+* @param {string} route - Endpoint route.
+* @param {object} stub - Stub definition.
+* @param {string} [service] - Service URL.
+* @returns {Backstubber} The current {@link module:backstubber~Backstubber|Backstubber} instance, for chaining.
+*/
+Backstubber.prototype.all = stubVerbFn('all');
 
 /**
 * Binds and listens for connections on the specified host and port. This method is identical to Node’s
@@ -339,7 +406,7 @@ Backstubber.prototype.listen = function () {
 <br class="clear">
 
 <footer>
-    Documentation generated at Thu Aug 13 2015 02:23:09 GMT-0700 (PDT)
+    Documentation generated at Thu Aug 13 2015 17:19:10 GMT-0700 (PDT)
 </footer>
 
 <script>prettyPrint();</script>
