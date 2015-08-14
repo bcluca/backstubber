@@ -6,6 +6,9 @@ backstubber()
     .mount(__dirname + '/simple')
     .mount(__dirname + '/merge', 'https://api.github.com')
     .mount(__dirname + '/form', 'http://httpbin.org')
+    .get('/foo/bar', { foo: 'bar' })
+    .post('/test', { test: true })
+    .all('/baz', { _$$: true, baz: true }, 'https://api.github.com')
     .proxy('*', 'https://api.github.com')
     .listen(port);
 

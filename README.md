@@ -96,6 +96,18 @@ Stubbed output:
 
 The `followers` attribute is modified and a new `awesome` attribute is added.
 
+You can also stub individual routes inline, e.g.:
+
+````javascript
+var backstubber = require('backstubber');
+
+backstubber()
+    .get('/foo/bar', { foo: 'bar' })
+    .post('/test', { test: true })
+    .all('/baz', { _$$: true, baz: true }, 'https://api.github.com')
+    .listen(3333);
+````
+
 #### As a binary
 
     Usage: backstubber [options]
