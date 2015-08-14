@@ -76,12 +76,15 @@ backstubber()
     ├── hello
     │   └── get.json
     └── random
-        └── get.js</code></pre><p>Example <code>get.json</code>:</p>
+        └── get.js</code></pre><p>Example <code>get.json</code> defining a simple static stub:</p>
+<pre class="prettyprint source lang-json"><code>{
+    &quot;foo&quot; : &quot;bar&quot;
+}</code></pre><p>The following example defines a dynamic stub that is merged on top of a real response from an external service:</p>
 <pre class="prettyprint source lang-json"><code>{
     &quot;_$$&quot; : false,
     &quot;awesome&quot; : true,
     &quot;followers&quot; : 424242
-}</code></pre><p>Original output:</p>
+}</code></pre><p>Original response from the external service:</p>
 <pre class="prettyprint source lang-json"><code>{
     &quot;login&quot;: &quot;bcluca&quot;,
     &quot;url&quot;: &quot;https://api.github.com/users/bcluca&quot;,
@@ -89,7 +92,7 @@ backstubber()
     &quot;name&quot;: &quot;Luca Bernardo Ciddio&quot;,
     &quot;company&quot;: &quot;YellowPages.com&quot;,
     &quot;followers&quot;: 11
-}</code></pre><p>Stubbed output:</p>
+}</code></pre><p>Stubbed response:</p>
 <pre class="prettyprint source lang-json"><code>{
     &quot;login&quot;: &quot;bcluca&quot;,
     &quot;url&quot;: &quot;https://api.github.com/users/bcluca&quot;,
@@ -115,11 +118,11 @@ Options:
   -m, --mount &lt;dir[,service]>       mount stubs directory, with optional service
   -P, --proxy &lt;endpoint|*,service>  proxy unhandled calls (use * to catch all)
   -p, --port &lt;port>                 set the port (defaults to 3333)</code></pre><p>Examples:</p>
-<pre class="prettyprint source"><code>$ backstubber -m ./example/simple/
-$ backstubber -m ./example/simple/ -m ./example/merge,https://api.github.com -p 8080
-$ backstubber --mount=./example/simple/ --port=3000
-$ backstubber -m ./example/merge,https://api.github.com -P *,https://api.github.com</code></pre><h5>Note</h5><p>If you are using the <code>backstubber</code> binary and your stubs require any packages, you will need to install them globally.</p>
-<p>For instance, if you want to mount the stubs defined in <code>./example/simple/</code>, please run <code>npm install -g faker</code> first.</p>
+<pre class="prettyprint source"><code>$ backstubber -m example/simple
+$ backstubber -m example/simple -m example/merge,https://api.github.com -p 8080
+$ backstubber --mount=example/simple --port=3000
+$ backstubber -m example/merge,https://api.github.com -P *,https://api.github.com</code></pre><h5>Note</h5><p>If you are using the <code>backstubber</code> binary and your stubs require any packages, make sure you have those installed either locally in any <code>node_modules</code> directory up the tree, or globally.</p>
+<p>For instance, if you want to mount the stubs defined in <code>./example/simple/</code>, please run <code>npm install</code> or <code>npm install -g faker</code> first.</p>
 <h2>Merging with <code>_$$</code></h2><p>If you add a service url to your <code>mount()</code> calls, your stub will proxy all calls to an actual service and merge the responses. In your endpoint file, you can reference the original response with the <code>_$$</code> attribute.</p>
 <p>Setting <code>_$$</code> to a falsy value (e.g. <code>false</code> or <code>0</code>) merges your stub data on top of the original response. A truthy value (e.g. <code>true</code> or <code>1</code>) makes the original attributes &quot;win&quot; over your stub data.</p>
 <p><code>_$$</code> is falsy by default, meaning that all stubs will overwrite the original response if no <code>_$$</code> attributes are present.</p>
@@ -245,7 +248,7 @@ $ backstubber -m ./example/merge,https://api.github.com -P *,https://api.github.
 <br class="clear">
 
 <footer>
-    Documentation generated at Thu Aug 13 2015 23:46:19 GMT-0700 (PDT)
+    Documentation generated at Fri Aug 14 2015 00:24:23 GMT-0700 (PDT)
 </footer>
 
 <script>prettyPrint();</script>
