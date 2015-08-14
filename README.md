@@ -57,7 +57,15 @@ In each endpoint directory, create JSON or JavaScript files named after the HTTP
         └── random
             └── get.js
 
-Example `get.json`:
+Example `get.json` defining a simple static stub:
+
+````json
+{
+    "foo" : "bar"
+}
+````
+
+The following example defines a dynamic stub that is merged on top of a real response from an external service:
 
 ````json
 {
@@ -67,7 +75,7 @@ Example `get.json`:
 }
 ````
 
-Original output:
+Original response from the external service:
 
 ````json
 {
@@ -80,7 +88,7 @@ Original output:
 }
 ````
 
-Stubbed output:
+Stubbed response:
 
 ````json
 {
@@ -122,16 +130,16 @@ backstubber()
 
 Examples:
 
-    $ backstubber -m ./example/simple/
-    $ backstubber -m ./example/simple/ -m ./example/merge,https://api.github.com -p 8080
-    $ backstubber --mount=./example/simple/ --port=3000
-    $ backstubber -m ./example/merge,https://api.github.com -P *,https://api.github.com
+    $ backstubber -m example/simple
+    $ backstubber -m example/simple -m example/merge,https://api.github.com -p 8080
+    $ backstubber --mount=example/simple --port=3000
+    $ backstubber -m example/merge,https://api.github.com -P *,https://api.github.com
 
 ##### Note
 
-If you are using the `backstubber` binary and your stubs require any packages, you will need to install them globally.
+If you are using the `backstubber` binary and your stubs require any packages, make sure you have those installed either locally in any `node_modules` directory up the tree, or globally.
 
-For instance, if you want to mount the stubs defined in `./example/simple/`, please run `npm install -g faker` first.
+For instance, if you want to mount the stubs defined in `./example/simple/`, please run `npm install` or `npm install -g faker` first.
 
 Merging with `_$$`
 ------------------
