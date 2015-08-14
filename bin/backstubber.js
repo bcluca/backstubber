@@ -45,6 +45,7 @@ cmds.forEach(function (m) {
             if (!stat.isDirectory()) {
                 error(path + ' is not a directory');
             }
+            path = fs.realpathSync(path);
         } catch(err) {
             error(path + ' does not exist');
         }
