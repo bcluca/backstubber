@@ -32,7 +32,7 @@ function Backstubber() {
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
 
-    this.app = app;
+    this._app = app;
 }
 
 /**
@@ -230,7 +230,7 @@ function requiredArgs() {
 */
 Backstubber.prototype.proxy = function (path, service) {
     requiredArgs('path', 'service', arguments);
-    this.app.all(path, proxy(service));
+    this._app.all(path, proxy(service));
     return this;
 };
 
@@ -268,7 +268,7 @@ Backstubber.prototype.mount = function (dir, service) {
             endpoint += relativeDir;
         }
 
-        self.app[verb](endpoint, stubHandler(stub, format, service));
+        self._app[verb](endpoint, stubHandler(stub, format, service));
     });
 
     return this;
@@ -276,7 +276,7 @@ Backstubber.prototype.mount = function (dir, service) {
 
 function stubVerbFn(verb) {
     return function (route, stub, service) {
-        this.app[verb](route, stubHandler(stub, 'js', service));
+        this._app[verb](route, stubHandler(stub, 'js', service));
         return this;
     };
 }
@@ -351,6 +351,6 @@ Backstubber.prototype.all = stubVerbFn('all');
 * @returns {Backstubber} The current {@link module:backstubber~Backstubber|Backstubber} instance, for chaining.
 */
 Backstubber.prototype.listen = function () {
-    this.app.listen.apply(this.app, arguments);
+    this._app.listen.apply(this._app, arguments);
     return this;
 };
