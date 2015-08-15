@@ -172,7 +172,7 @@ $ backstubber -m example/merge,https://api.github.com -P *,https://api.github.co
     query : function (data, req) {
         return req.query;
     }
-};</code></pre><h2>HTTP status codes</h2><p>When you interact with an external service, you can also restrict your stubs to specific HTTP status codes by adding a status prefix to your stub, e.g.:</p>
+};</code></pre><h2>HTTP status codes</h2><p>When you interact with an external service, you can restrict your stubs to specific HTTP status codes by adding a prefix to their name, e.g.:</p>
 <pre class="prettyprint source"><code>example/status/
 └── status
     └── :status
@@ -243,6 +243,10 @@ $ backstubber -m example/merge,https://api.github.com -P *,https://api.github.co
 <td><code>GET /req?foo=bar</code></td>
 <td>Example using the request object</td>
 </tr>
+<tr>
+<td><code>GET /status/:status</code></td>
+<td>HTTP status code specific stubs</td>
+</tr>
 </tbody>
 </table></article>
     </section>
@@ -257,7 +261,7 @@ $ backstubber -m example/merge,https://api.github.com -P *,https://api.github.co
 <br class="clear">
 
 <footer>
-    Documentation generated at Sat Aug 15 2015 00:47:04 GMT-0700 (PDT)
+    Documentation generated at Sat Aug 15 2015 01:09:19 GMT-0700 (PDT)
 </footer>
 
 <script>prettyPrint();</script>
