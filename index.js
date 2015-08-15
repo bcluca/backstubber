@@ -17,6 +17,7 @@ var url = require('url');
 var extend = require('extend');
 
 var VERBS = ['head', 'get', 'post', 'put', 'delete', 'all'];
+var STATUS_REGEX = /^[1-5](\d|[xX]){2}$/;
 var MERGE_OP = '_$$';
 var OPS = [MERGE_OP];
 
@@ -252,10 +253,19 @@ Backstubber.prototype.mount = function (dir, service) {
     var self = this;
     glob.sync(dir + '/**/*.@(json|js)').forEach(function (filePath) {
         var ext    = path.extname(filePath);
-        var verb   = path.basename(filePath, ext);
+        var name   = path.basename(filePath, ext);
+        var vs     = name.split('.');
+        var verb   = vs[0];
+        var status = vs[1];
 
         if (VERBS.indexOf(verb) === -1) {
             throw new Error("unknown verb '" + verb + "'");
+        }
+        if (status && !service) {
+            throw new Error("'service' is required for status code specific stubs");
+        }
+        if (status && !STATUS_REGEX.test(status)) {
+            throw new Error("'" + status + "' is not a valid HTTP status code");
         }
 
         var relativePath = path.relative(dir, filePath);
