@@ -107,7 +107,7 @@ function transform(stub, data, req) {
 }
 
 function sendData(data, res, originalRes) {
-    var headers = { 'content-type': 'application/json;charset=utf-8' };
+    var headers = {};
     var status = 200;
     data = data !== null ? JSON.stringify(data) : '';
 
@@ -117,6 +117,7 @@ function sendData(data, res, originalRes) {
     }
 
     if (data) {
+        headers['content-type'] = 'application/json;charset=utf-8';
         headers['content-length'] = Buffer.byteLength(data, 'utf8');
     }
 
