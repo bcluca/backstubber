@@ -233,7 +233,7 @@ module.exports = {
 HTTP status codes
 -----------------
 
-When you interact with an external service, you can also restrict your stubs to specific HTTP status codes by adding a status prefix to your stub, e.g.:
+When you interact with an external service, you can restrict your stubs to specific HTTP status codes by adding a status prefix to your stub, e.g.:
 
     example/status/
     └── status
@@ -272,3 +272,4 @@ Endpoint | Description
 `GET /events`            | Root handler example
 `GET /dynamic`           | Dynamic merging example
 `GET /req?foo=bar`       | Example using the request object
+`GET /status/:status`    | HTTP status code specific stubs
