@@ -9,6 +9,8 @@ backstubber()
     .get('/foo/bar', { foo: 'bar' })
     .post('/test', { test: true })
     .all('/baz', { _$$: true, baz: true }, 'https://api.github.com')
+    .get('/status/503', { message : 'this is a 503' }, 'http://httpbin.org', 503)
+    .mount(__dirname + '/status', 'http://httpbin.org')
     .proxy('*', 'https://api.github.com')
     .listen(port);
 

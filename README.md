@@ -230,6 +230,24 @@ module.exports = {
 };
 ````
 
+HTTP status codes
+-----------------
+
+When you interact with an external service, you can also restrict your stubs to specific HTTP status codes by adding a status prefix to your stub, e.g.:
+
+    example/status/
+    └── status
+        └── :status
+            ├── get.200.json
+            ├── get.4xx.js
+            └── get.json
+
+The `x` in the status code pattern will match any number.
+
+Stubs with no status specified will be used as a fallback, when no specific status codes are matched. If no generic stubs are found, the request will be proxied to the external service, as usual.
+
+In the example above you can also notice the use of parameters. Naming an endpoint directory with a leading colon, e.g. `:status`, will make that part of the actual URL available in `req.params`, e.g. `req.params.status`.
+
 Example app
 -----------
 
