@@ -107,7 +107,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line29">line 29</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line30">line 30</a>
     </li></ul></dd>
     
 
@@ -178,14 +178,15 @@
 
     
 
-    <h4 class="name" id="all"><span class="type-signature"></span>all<span class="signature">(route, stub, service<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Backstubber}</span></h4>
+    <h4 class="name" id="all"><span class="type-signature"></span>all<span class="signature">(route, stub, service<span class="signature-attributes">opt</span>, status<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Backstubber}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Stubs an individual route for all HTTP verbs, optionally merging with the response from an external service.</p>
+    <p>Stubs an individual route for all HTTP verbs, optionally merging with the response from an external service.
+If a status code is passed, this will only stub calls that receive a matching status code from the service.</p>
 </div>
 
 
@@ -315,6 +316,42 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>status</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>HTTP status code, e.g. 200, 301, 3xx.</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -352,7 +389,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line334">line 334</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line388">line 388</a>
     </li></ul></dd>
     
 
@@ -405,14 +442,15 @@
 
     
 
-    <h4 class="name" id="delete"><span class="type-signature"></span>delete<span class="signature">(route, stub, service<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Backstubber}</span></h4>
+    <h4 class="name" id="delete"><span class="type-signature"></span>delete<span class="signature">(route, stub, service<span class="signature-attributes">opt</span>, status<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Backstubber}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Stubs an individual <code>DELETE</code> route, optionally merging with the response from an external service.</p>
+    <p>Stubs an individual <code>DELETE</code> route, optionally merging with the response from an external service.
+If a status code is passed, this will only stub calls that receive a matching status code from the service.</p>
 </div>
 
 
@@ -542,6 +580,42 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>status</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>HTTP status code, e.g. 200, 301, 3xx.</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -579,7 +653,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line324">line 324</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line376">line 376</a>
     </li></ul></dd>
     
 
@@ -632,14 +706,15 @@
 
     
 
-    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(route, stub, service<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Backstubber}</span></h4>
+    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(route, stub, service<span class="signature-attributes">opt</span>, status<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Backstubber}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Stubs an individual <code>GET</code> route, optionally merging with the response from an external service.</p>
+    <p>Stubs an individual <code>GET</code> route, optionally merging with the response from an external service.
+If a status code is passed, this will only stub calls that receive a matching status code from the service.</p>
 </div>
 
 
@@ -769,6 +844,42 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>status</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>HTTP status code, e.g. 200, 301, 3xx.</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -806,7 +917,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line294">line 294</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line340">line 340</a>
     </li></ul></dd>
     
 
@@ -859,14 +970,15 @@
 
     
 
-    <h4 class="name" id="head"><span class="type-signature"></span>head<span class="signature">(route, stub, service<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Backstubber}</span></h4>
+    <h4 class="name" id="head"><span class="type-signature"></span>head<span class="signature">(route, stub, service<span class="signature-attributes">opt</span>, status<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Backstubber}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Stubs an individual <code>HEAD</code> route, optionally merging with the response from an external service.</p>
+    <p>Stubs an individual <code>HEAD</code> route, optionally merging with the response from an external service.
+If a status code is passed, this will only stub calls that receive a matching status code from the service.</p>
 </div>
 
 
@@ -996,6 +1108,42 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>status</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>HTTP status code, e.g. 200, 301, 3xx.</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -1033,7 +1181,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line284">line 284</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line328">line 328</a>
     </li></ul></dd>
     
 
@@ -1318,7 +1466,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line353">line 353</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line409">line 409</a>
     </li></ul></dd>
     
 
@@ -1514,7 +1662,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line243">line 243</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line279">line 279</a>
     </li></ul></dd>
     
 
@@ -1567,14 +1715,15 @@
 
     
 
-    <h4 class="name" id="post"><span class="type-signature"></span>post<span class="signature">(route, stub, service<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Backstubber}</span></h4>
+    <h4 class="name" id="post"><span class="type-signature"></span>post<span class="signature">(route, stub, service<span class="signature-attributes">opt</span>, status<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Backstubber}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Stubs an individual <code>POST</code> route, optionally merging with the response from an external service.</p>
+    <p>Stubs an individual <code>POST</code> route, optionally merging with the response from an external service.
+If a status code is passed, this will only stub calls that receive a matching status code from the service.</p>
 </div>
 
 
@@ -1704,6 +1853,42 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>status</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>HTTP status code, e.g. 200, 301, 3xx.</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -1741,7 +1926,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line304">line 304</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line352">line 352</a>
     </li></ul></dd>
     
 
@@ -1917,7 +2102,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line231">line 231</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line267">line 267</a>
     </li></ul></dd>
     
 
@@ -1970,14 +2155,15 @@
 
     
 
-    <h4 class="name" id="put"><span class="type-signature"></span>put<span class="signature">(route, stub, service<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Backstubber}</span></h4>
+    <h4 class="name" id="put"><span class="type-signature"></span>put<span class="signature">(route, stub, service<span class="signature-attributes">opt</span>, status<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Backstubber}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Stubs an individual <code>PUT</code> route, optionally merging with the response from an external service.</p>
+    <p>Stubs an individual <code>PUT</code> route, optionally merging with the response from an external service.
+If a status code is passed, this will only stub calls that receive a matching status code from the service.</p>
 </div>
 
 
@@ -2107,6 +2293,42 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>status</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>HTTP status code, e.g. 200, 301, 3xx.</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -2144,7 +2366,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line314">line 314</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line364">line 364</a>
     </li></ul></dd>
     
 
@@ -2210,7 +2432,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated at Fri Aug 14 2015 00:24:23 GMT-0700 (PDT)
+    Documentation generated at Sat Aug 15 2015 00:47:04 GMT-0700 (PDT)
 </footer>
 
 <script>prettyPrint();</script>

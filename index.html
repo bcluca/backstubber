@@ -172,7 +172,16 @@ $ backstubber -m example/merge,https://api.github.com -P *,https://api.github.co
     query : function (data, req) {
         return req.query;
     }
-};</code></pre><h2>Example app</h2><p>Run with:</p>
+};</code></pre><h2>HTTP status codes</h2><p>When you interact with an external service, you can also restrict your stubs to specific HTTP status codes by adding a status prefix to your stub, e.g.:</p>
+<pre class="prettyprint source"><code>example/status/
+└── status
+    └── :status
+        ├── get.200.json
+        ├── get.4xx.js
+        └── get.json</code></pre><p>The <code>x</code> in the status code pattern will match any number.</p>
+<p>Stubs with no status specified will be used as a fallback, when no specific status codes are matched. If no generic stubs are found, the request will be proxied to the external service, as usual.</p>
+<p>In the example above you can also notice the use of parameters. Naming an endpoint directory with a leading colon, e.g. <code>:status</code>, will make that part of the actual URL available in <code>req.params</code>, e.g. <code>req.params.status</code>.</p>
+<h2>Example app</h2><p>Run with:</p>
 <pre class="prettyprint source"><code>$ node example/app.js</code></pre><p>Test endpoints:</p>
 <table>
 <thead>
@@ -248,7 +257,7 @@ $ backstubber -m example/merge,https://api.github.com -P *,https://api.github.co
 <br class="clear">
 
 <footer>
-    Documentation generated at Fri Aug 14 2015 00:24:23 GMT-0700 (PDT)
+    Documentation generated at Sat Aug 15 2015 00:47:04 GMT-0700 (PDT)
 </footer>
 
 <script>prettyPrint();</script>

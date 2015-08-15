@@ -41,7 +41,7 @@
             <pre class="prettyprint source linenums"><code>/**
 * Simple yet powerful backend stubs.
 * @module backstubber
-* @version v0.1.18
+* @version v0.1.19
 * @license MIT
 * @author {@link https://github.com/bcluca|Luca Bernardo Ciddio}
 */
@@ -57,6 +57,7 @@ var url = require('url');
 var extend = require('extend');
 
 var VERBS = ['head', 'get', 'post', 'put', 'delete', 'all'];
+var STATUS_REGEX = /^[1-5](\d|[xX]){2}$/;
 var MERGE_OP = '_$$';
 var OPS = [MERGE_OP];
 
@@ -68,11 +69,30 @@ var OPS = [MERGE_OP];
 */
 function Backstubber() {
     var app = express();
+    var stubsByStatus = {};
 
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
 
-    this.app = app;
+    this._app = app;
+
+    this._registerStub = function (stub, format, verb, endpoint, service, status) {
+        if (!service) {
+            app[verb](endpoint, stubHandler(stub, format));
+        } else {
+            if (!stubsByStatus[endpoint]) {
+                var stubs = [];
+                stubsByStatus[endpoint] = stubs;
+                app[verb](endpoint, statusHandler(service, stubs));
+            }
+            stubsByStatus[endpoint].push({
+                pattern : regexForStatus(status || 'xxx'),
+                stub    : stub,
+                format  : format
+            });
+        }
+        return this;
+    };
 }
 
 /**
@@ -82,6 +102,10 @@ function Backstubber() {
 module.exports = function () {
     return new Backstubber();
 };
+
+function regexForStatus(status) {
+    return new RegExp('^' + status.toString().replace(/[xX]/g, '\\d') + '$');
+}
 
 function emptyVal(oa) {
     return oa instanceof Array ? [] : {};
@@ -146,7 +170,7 @@ function transform(stub, data, req) {
 }
 
 function sendData(data, res, originalRes) {
-    var headers = { 'content-type': 'application/json;charset=utf-8' };
+    var headers = {};
     var status = 200;
     data = data !== null ? JSON.stringify(data) : '';
 
@@ -156,6 +180,7 @@ function sendData(data, res, originalRes) {
     }
 
     if (data) {
+        headers['content-type'] = 'application/json;charset=utf-8';
         headers['content-length'] = Buffer.byteLength(data, 'utf8');
     }
 
@@ -217,35 +242,46 @@ function fetch(req, service, callback) {
     proxyReq.end();
 }
 
-function stubHandler(stub, format, service) {
-    var serveStub = function (stub, res, data, req, originalRes) {
-        if (format === 'js' || service) {
-            stub = transform(stub, data, req);
-        }
-        sendData(stub, res, originalRes);
-    };
+function serveStub(stub, format, req, res, data, originalRes) {
+    if (format === 'js' || data) {
+        stub = transform(stub, data, req);
+    }
+    sendData(stub, res, originalRes);
+}
 
+function stubHandler(stub, format) {
     return function (req, res) {
-        if (service) {
-            fetch(req, service, function (err, data, originalRes) {
-                if (err) {
-                    console.trace(err);
-                }
-                serveStub(stub, res, data, req, originalRes);
-            });
-        } else {
-            serveStub(stub, res, null, req);
-        }
+        serveStub(stub, format, req, res);
     };
 }
 
-function proxy(service) {
+function proxyHandler(service) {
     return function (req, res) {
         fetch(req, service, function (err, data, originalRes) {
             if (err) {
                 console.trace(err);
             }
             sendData(data, res, originalRes);
+        });
+    };
+}
+
+function statusHandler(service, stubs) {
+    return function (req, res) {
+        fetch(req, service, function (err, data, originalRes) {
+            if (err) {
+                console.trace(err);
+            }
+            var noMatches = stubs.every(function (statusStub) {
+                if (statusStub.pattern.test(originalRes.statusCode)) {
+                    serveStub(statusStub.stub, statusStub.format, req, res, data, originalRes);
+                    return false;
+                }
+                return true;
+            });
+            if (noMatches) {
+                sendData(data, res, originalRes);
+            }
         });
     };
 }
@@ -270,7 +306,7 @@ function requiredArgs() {
 */
 Backstubber.prototype.proxy = function (path, service) {
     requiredArgs('path', 'service', arguments);
-    this.app.all(path, proxy(service));
+    this._app.all(path, proxyHandler(service));
     return this;
 };
 
@@ -292,10 +328,19 @@ Backstubber.prototype.mount = function (dir, service) {
     var self = this;
     glob.sync(dir + '/**/*.@(json|js)').forEach(function (filePath) {
         var ext    = path.extname(filePath);
-        var verb   = path.basename(filePath, ext);
+        var name   = path.basename(filePath, ext);
+        var vs     = name.split('.');
+        var verb   = vs[0];
+        var status = vs[1];
 
         if (VERBS.indexOf(verb) === -1) {
             throw new Error("unknown verb '" + verb + "'");
+        }
+        if (status &amp;&amp; !service) {
+            throw new Error("'service' is required for status code specific stubs");
+        }
+        if (status &amp;&amp; !STATUS_REGEX.test(status)) {
+            throw new Error("'" + status + "' is not a valid HTTP status code");
         }
 
         var relativePath = path.relative(dir, filePath);
@@ -308,75 +353,86 @@ Backstubber.prototype.mount = function (dir, service) {
             endpoint += relativeDir;
         }
 
-        self.app[verb](endpoint, stubHandler(stub, format, service));
+        self._registerStub(stub, format, verb, endpoint, service, status);
     });
 
     return this;
 };
 
 function stubVerbFn(verb) {
-    return function (route, stub, service) {
-        this.app[verb](route, stubHandler(stub, 'js', service));
-        return this;
+    return function (route, stub, service, status) {
+        return this._registerStub(stub, 'js', verb, route, service, status);
     };
 }
 
 /**
 * Stubs an individual `HEAD` route, optionally merging with the response from an external service.
+* If a status code is passed, this will only stub calls that receive a matching status code from the service.
 * @function module:backstubber~Backstubber#head
 * @param {string} route - Endpoint route.
 * @param {object} stub - Stub definition.
 * @param {string} [service] - Service URL.
+* @param {number|string} [status] - HTTP status code, e.g. 200, 301, 3xx.
 * @returns {Backstubber} The current {@link module:backstubber~Backstubber|Backstubber} instance, for chaining.
 */
 Backstubber.prototype.head = stubVerbFn('head');
 
 /**
 * Stubs an individual `GET` route, optionally merging with the response from an external service.
+* If a status code is passed, this will only stub calls that receive a matching status code from the service.
 * @function module:backstubber~Backstubber#get
 * @param {string} route - Endpoint route.
 * @param {object} stub - Stub definition.
 * @param {string} [service] - Service URL.
+* @param {number|string} [status] - HTTP status code, e.g. 200, 301, 3xx.
 * @returns {Backstubber} The current {@link module:backstubber~Backstubber|Backstubber} instance, for chaining.
 */
 Backstubber.prototype.get = stubVerbFn('get');
 
 /**
 * Stubs an individual `POST` route, optionally merging with the response from an external service.
+* If a status code is passed, this will only stub calls that receive a matching status code from the service.
 * @function module:backstubber~Backstubber#post
 * @param {string} route - Endpoint route.
 * @param {object} stub - Stub definition.
 * @param {string} [service] - Service URL.
+* @param {number|string} [status] - HTTP status code, e.g. 200, 301, 3xx.
 * @returns {Backstubber} The current {@link module:backstubber~Backstubber|Backstubber} instance, for chaining.
 */
 Backstubber.prototype.post = stubVerbFn('post');
 
 /**
 * Stubs an individual `PUT` route, optionally merging with the response from an external service.
+* If a status code is passed, this will only stub calls that receive a matching status code from the service.
 * @function module:backstubber~Backstubber#put
 * @param {string} route - Endpoint route.
 * @param {object} stub - Stub definition.
 * @param {string} [service] - Service URL.
+* @param {number|string} [status] - HTTP status code, e.g. 200, 301, 3xx.
 * @returns {Backstubber} The current {@link module:backstubber~Backstubber|Backstubber} instance, for chaining.
 */
 Backstubber.prototype.put = stubVerbFn('put');
 
 /**
 * Stubs an individual `DELETE` route, optionally merging with the response from an external service.
+* If a status code is passed, this will only stub calls that receive a matching status code from the service.
 * @function module:backstubber~Backstubber#delete
 * @param {string} route - Endpoint route.
 * @param {object} stub - Stub definition.
 * @param {string} [service] - Service URL.
+* @param {number|string} [status] - HTTP status code, e.g. 200, 301, 3xx.
 * @returns {Backstubber} The current {@link module:backstubber~Backstubber|Backstubber} instance, for chaining.
 */
 Backstubber.prototype.delete = stubVerbFn('delete');
 
 /**
 * Stubs an individual route for all HTTP verbs, optionally merging with the response from an external service.
+* If a status code is passed, this will only stub calls that receive a matching status code from the service.
 * @function module:backstubber~Backstubber#all
 * @param {string} route - Endpoint route.
 * @param {object} stub - Stub definition.
 * @param {string} [service] - Service URL.
+* @param {number|string} [status] - HTTP status code, e.g. 200, 301, 3xx.
 * @returns {Backstubber} The current {@link module:backstubber~Backstubber|Backstubber} instance, for chaining.
 */
 Backstubber.prototype.all = stubVerbFn('all');
@@ -391,7 +447,7 @@ Backstubber.prototype.all = stubVerbFn('all');
 * @returns {Backstubber} The current {@link module:backstubber~Backstubber|Backstubber} instance, for chaining.
 */
 Backstubber.prototype.listen = function () {
-    this.app.listen.apply(this.app, arguments);
+    this._app.listen.apply(this._app, arguments);
     return this;
 };
 </code></pre>
@@ -406,7 +462,7 @@ Backstubber.prototype.listen = function () {
 <br class="clear">
 
 <footer>
-    Documentation generated at Fri Aug 14 2015 00:24:23 GMT-0700 (PDT)
+    Documentation generated at Sat Aug 15 2015 00:47:04 GMT-0700 (PDT)
 </footer>
 
 <script>prettyPrint();</script>
