@@ -76,13 +76,13 @@ function has(av, oa) {
     return oa instanceof Array ? oa.indexOf(av) !== -1 : oa.hasOwnProperty(av);
 }
 
-function opEval(op, data) {
-    return typeof op === 'function' ? op(data) : !!op;
+function opEval(op, data, req, originalRes) {
+    return typeof op === 'function' ? op(data, req, originalRes) : !!op;
 }
 
-function opVal(av, oa, data) {
+function opVal(av, oa, data, req, originalRes) {
     if (!oa) { return false; }
-    return oa instanceof Array ? false : opEval(oa[av], data);
+    return oa instanceof Array ? false : opEval(oa[av], data, req, originalRes);
 }
 
 function isOp(ai, oa) {
@@ -98,12 +98,12 @@ function setVal(value, ai, oa) {
     }
 }
 
-function transform(stub, data, req) {
+function transform(stub, data, req, originalRes) {
     if (stub === null) { return null; }
-    if (typeof stub === 'function') { return stub(data, req); }
+    if (typeof stub === 'function') { return stub(data, req, originalRes); }
 
     var dst = data && has(MERGE_OP, stub) ? data : emptyVal(stub);
-    var resAttrWins = opVal(MERGE_OP, stub, data);
+    var resAttrWins = opVal(MERGE_OP, stub, data, req, originalRes);
 
     Object.keys(stub).forEach(function (attr) {
         if (isOp(attr, stub)) {
@@ -114,10 +114,10 @@ function transform(stub, data, req) {
 
         switch (typeof value) {
             case 'object':
-                setVal(transform(value, resValue, req), attr, dst);
+                setVal(transform(value, resValue, req, originalRes), attr, dst);
                 break;
             case 'function':
-                setVal(value(resValue, req), attr, dst);
+                setVal(value(resValue, req, originalRes), attr, dst);
                 break;
             default:
                 if (!dst.hasOwnProperty(attr) || !resAttrWins) {
@@ -191,6 +191,7 @@ function fetch(req, service, callback) {
                     console.warn('Could not parse JSON body for', options.method, options.path);
                 }
             }
+            res.body = data;
             callback(null, data, res);
         });
     }).on('error', callback);
@@ -204,7 +205,7 @@ function fetch(req, service, callback) {
 
 function serveStub(stub, format, req, res, data, originalRes) {
     if (format === 'js' || data) {
-        stub = transform(stub, data, req);
+        stub = transform(stub, data, req, originalRes);
     }
     sendData(stub, res, originalRes);
 }

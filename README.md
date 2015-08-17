@@ -217,7 +217,7 @@ module.exports = {
 Request object
 --------------
 
-In addition to the current `data` chunk, you can use the original request object `req` inside functions, e.g.:
+In addition to the current `data` chunk, you can use the original request object `req` inside callback functions, e.g.:
 
 ````javascript
 module.exports = {
@@ -229,6 +229,39 @@ module.exports = {
     }
 };
 ````
+
+Response object
+---------------
+
+Inside callback functions, you can also access the original response from the external service, e.g.:
+
+````javascript
+module.exports = {
+    _$$ : function (data, req, res) {
+        res.statusCode = 200;          // Change status code from 404 to 200
+        res.headers.status = '200 OK'; // Update status header (github sends that too)
+        return true;
+    },
+    headers : function (data, req, res) {
+        console.log(res.body);         // You can access the original response body
+        return res.headers;            // Just to show updated headers
+    }
+};
+````
+
+As shown in the example above, you can also access the original response body and change your fake response status and headers. This works in inline stubs as well, e.g.:
+
+````javascript
+backstubber()
+    .get('/headers', function (data, req, res) {
+        return {
+            headers : res.headers
+        };
+    }, 'https://api.github.com')
+    .listen(3333);
+````
+
+Please note that Backstubber will overwrite the `content-type` and `content-length` headers, to make sure that a valid JSON response is sent.
 
 HTTP status codes
 -----------------

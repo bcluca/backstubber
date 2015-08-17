@@ -11,6 +11,11 @@ backstubber()
     .all('/baz', { _$$: true, baz: true }, 'https://api.github.com')
     .get('/status/503', { message : 'this is a 503' }, 'http://httpbin.org', 503)
     .mount(__dirname + '/status', 'http://httpbin.org')
+    .get('/headers', function (data, req, res) {
+        return {
+            headers : res.headers
+        };
+    }, 'https://api.github.com')
     .proxy('*', 'https://api.github.com')
     .listen(port);
 
