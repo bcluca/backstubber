@@ -293,7 +293,7 @@ Test endpoints:
 Endpoint | Description
 --- | ---
 `GET /hello`             | Simple _Hello!_ message
-`GET /random`            | Dynamic output using functions
+`GET /random`            | Dynamic output using callbacks
 `GET /faker`             | Example using Faker generators
 `GET /`                  | Simple proxy to the github API
 `POST /post`             | Simple `POST` example
@@ -301,8 +301,10 @@ Endpoint | Description
 `GET /users/bcluca`      | Merging example using JSON
 `GET /rate_limit`        | Example showing merging overrides
 `GET /users/bcluca/orgs` | Array merging example
-`GET /fn`                | Using response data in functions
+`GET /fn`                | Using response data in callbacks
 `GET /events`            | Root handler example
 `GET /dynamic`           | Dynamic merging example
 `GET /req?foo=bar`       | Example using the request object
 `GET /status/:status`    | HTTP status code specific stubs
+`GET /res`               | Example using the response object
+`GET /headers`           | Inline stub showing response headers
