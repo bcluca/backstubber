@@ -164,7 +164,7 @@ $ backstubber -m example/merge,https://api.github.com -P *,https://api.github.co
         return Math.random() &lt; 0.5; // dynamic merge
     },
     message : 'Updated message'     // randomly merged
-};</code></pre><h2>Request object</h2><p>In addition to the current <code>data</code> chunk, you can use the original request object <code>req</code> inside functions, e.g.:</p>
+};</code></pre><h2>Request object</h2><p>In addition to the current <code>data</code> chunk, you can use the original request object <code>req</code> inside callback functions, e.g.:</p>
 <pre class="prettyprint source lang-javascript"><code>module.exports = {
     userAgent : function (data, req) {
         return req.headers['user-agent'];
@@ -172,7 +172,26 @@ $ backstubber -m example/merge,https://api.github.com -P *,https://api.github.co
     query : function (data, req) {
         return req.query;
     }
-};</code></pre><h2>HTTP status codes</h2><p>When you interact with an external service, you can restrict your stubs to specific HTTP status codes by adding a prefix to their name, e.g.:</p>
+};</code></pre><h2>Response object</h2><p>Inside callback functions, you can also access the original response from the external service, e.g.:</p>
+<pre class="prettyprint source lang-javascript"><code>module.exports = {
+    _$$ : function (data, req, res) {
+        res.statusCode = 200;          // Change status code from 404 to 200
+        res.headers.status = '200 OK'; // Update status header (github sends that too)
+        return true;
+    },
+    headers : function (data, req, res) {
+        console.log(res.body);         // You can access the original response body
+        return res.headers;            // Just to show updated headers
+    }
+};</code></pre><p>As shown in the example above, you can also access the original response body and change your fake response status and headers. This works in inline stubs as well, e.g.:</p>
+<pre class="prettyprint source lang-javascript"><code>backstubber()
+    .get('/headers', function (data, req, res) {
+        return {
+            headers : res.headers
+        };
+    }, 'https://api.github.com')
+    .listen(3333);</code></pre><p>Please note that Backstubber will overwrite the <code>content-type</code> and <code>content-length</code> headers, to make sure that a valid JSON response is sent.</p>
+<h2>HTTP status codes</h2><p>When you interact with an external service, you can restrict your stubs to specific HTTP status codes by adding a prefix to their name, e.g.:</p>
 <pre class="prettyprint source"><code>example/status/
 └── status
     └── :status
@@ -261,7 +280,7 @@ $ backstubber -m example/merge,https://api.github.com -P *,https://api.github.co
 <br class="clear">
 
 <footer>
-    Documentation generated at Sat Aug 15 2015 01:09:19 GMT-0700 (PDT)
+    Documentation generated at Sun Aug 16 2015 17:33:34 GMT-0700 (PDT)
 </footer>
 
 <script>prettyPrint();</script>
