@@ -122,11 +122,11 @@ backstubber()
 
     Options:
 
-      -h, --help                        output usage information
-      -V, --version                     output the version number
-      -m, --mount <dir[,service]>       mount stubs directory, with optional service
-      -P, --proxy <endpoint|*,service>  proxy unhandled calls (use * to catch all)
-      -p, --port <port>                 set the port (defaults to 3333)
+      -h, --help                          output usage information
+      -V, --version                       output the version number
+      -p, --port <port>                   set the port (defaults to 3333)
+      -m, --mount <dir>[,<service>]       mount stubs directory, with optional service
+      -P, --proxy <endpoint|*>,<service>  proxy unhandled calls (use * to catch all)
 
 Examples:
 
