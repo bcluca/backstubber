@@ -22,9 +22,9 @@ function error(err) {
 
 program
     .version(pkg.version)
-    .option('-m, --mount <dir[,service]>', 'mount stubs directory, with optional service', pushCmd('mount'), cmds)
-    .option('-P, --proxy <endpoint|*,service>', 'proxy unhandled calls (use * to catch all)', pushCmd('proxy'), cmds)
     .option('-p, --port <port>', 'set the port (defaults to 3333)')
+    .option('-m, --mount <dir>[,<service>]', 'mount stubs directory, with optional service', pushCmd('mount'), cmds)
+    .option('-P, --proxy <endpoint|*>,<service>', 'proxy unhandled calls (use * to catch all)', pushCmd('proxy'), cmds)
     .parse(process.argv);
 
 if (!process.argv.slice(2).length || !cmds.length) {
