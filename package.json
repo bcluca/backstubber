@@ -21,12 +21,17 @@
     "glob": "^5.0.14"
   },
   "devDependencies": {
+    "chai": "^3.2.0",
     "faker": "^3.0.1",
+    "hippie": "^0.4.0",
     "jsdoc": "^3.3.2",
-    "latodoc": "smeijer/latodoc"
+    "latodoc": "smeijer/latodoc",
+    "mocha": "^2.2.5",
+    "sinon": "^1.16.0"
   },
   "scripts": {
-    "docs": "node_modules/.bin/jsdoc --configure .jsdoc.json --verbose"
+    "docs": "node_modules/.bin/jsdoc --configure .jsdoc.json --verbose",
+    "test": "mocha test"
   },
   "keywords": [
     "json",
