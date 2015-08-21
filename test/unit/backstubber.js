@@ -1,7 +1,7 @@
 'use strict';
 
-var expect = require('chai').expect;
-var sinon = require('sinon');
+var expect      = require('chai').expect;
+var sinon       = require('sinon');
 var backstubber = require('../../src');
 
 describe('Backstubber', function () {
@@ -65,6 +65,6 @@ describe('Backstubber', function () {
             sandbox.stub(app._app, 'listen');
             app.listen(3333, 'foo', 'bar');
             expect(app._app.listen.calledWith(3333, 'foo', 'bar')).to.be.true;
-        })
+        });
     });
 });
