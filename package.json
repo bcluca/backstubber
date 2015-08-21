@@ -2,7 +2,7 @@
   "name": "backstubber",
   "version": "0.1.22",
   "description": "Simple yet powerful backend stubs.",
-  "main": "index.js",
+  "main": "src",
   "repository": {
     "type": "git",
     "url": "git://github.com/bcluca/backstubber.git"

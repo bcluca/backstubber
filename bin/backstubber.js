@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-var pkg         = require('../package.json');
-var backstubber = require('..');
 var program     = require('commander');
 var fs          = require('fs');
+var pkg         = require('../package.json');
+var backstubber = require('../src');
 var cmds        = [];
 
 function pushCmd(cmd) {

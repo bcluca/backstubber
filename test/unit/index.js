@@ -2,7 +2,7 @@
 
 var expect = require('chai').expect;
 var sinon = require('sinon');
-var backstubber = require('../..');
+var backstubber = require('../../src');
 
 describe('Backstubber', function () {
     var app = backstubber();
