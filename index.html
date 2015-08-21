@@ -113,11 +113,11 @@ backstubber()
 
 Options:
 
-  -h, --help                        output usage information
-  -V, --version                     output the version number
-  -m, --mount &lt;dir[,service]>       mount stubs directory, with optional service
-  -P, --proxy &lt;endpoint|*,service>  proxy unhandled calls (use * to catch all)
-  -p, --port &lt;port>                 set the port (defaults to 3333)</code></pre><p>Examples:</p>
+  -h, --help                          output usage information
+  -V, --version                       output the version number
+  -p, --port &lt;port>                   set the port (defaults to 3333)
+  -m, --mount &lt;dir>[,&lt;service>]       mount stubs directory, with optional service
+  -P, --proxy &lt;endpoint|*>,&lt;service>  proxy unhandled calls (use * to catch all)</code></pre><p>Examples:</p>
 <pre class="prettyprint source"><code>$ backstubber -m example/simple
 $ backstubber -m example/simple -m example/merge,https://api.github.com -p 8080
 $ backstubber --mount=example/simple --port=3000
@@ -288,7 +288,7 @@ $ backstubber -m example/merge,https://api.github.com -P *,https://api.github.co
 <br class="clear">
 
 <footer>
-    Documentation generated at Sun Aug 16 2015 17:40:30 GMT-0700 (PDT)
+    Documentation generated at Thu Aug 20 2015 18:24:18 GMT-0700 (PDT)
 </footer>
 
 <script>prettyPrint();</script>
