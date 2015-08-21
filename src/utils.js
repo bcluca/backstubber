@@ -26,7 +26,7 @@ function opEval(op, data, req, originalRes) {
 
 function opVal(pv, oa, data, req, originalRes) {
     if (!oa) { return false; }
-    return oa instanceof Array ? false : opEval(oa[pv], data, req, originalRes);
+    return oa instanceof Array ? false : utils.opEval(oa[pv], data, req, originalRes);
 }
 
 function isOp(pi, oa) {
@@ -85,7 +85,7 @@ function requiredArgs() {
     });
 }
 
-module.exports = {
+var utils = module.exports = {
     regexForStatus : regexForStatus,
     emptyVal       : emptyVal,
     has            : has,

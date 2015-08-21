@@ -106,4 +106,22 @@ describe('Utils', function () {
             });
         });
     });
+
+    describe('#opVal', function () {
+        it('returns false if oa is null', function () {
+            expect(utils.opVal('_$$', null)).to.be.false;
+        });
+
+        it ('returns false if oa is an array', function () {
+            expect(utils.opVal('_$$', [1, 2, 3])).to.be.false;
+            expect(utils.opVal('_$$', ['_$$', 1, 2, 3])).to.be.false;
+        });
+
+        it('returns the op evaluation otherwise', function () {
+            var mockObj = { _$$: 'opFn' };
+            sandbox.stub(utils, 'opEval').returns('foo');
+            expect(utils.opVal('_$$', mockObj, 'data', 'req', 'originalRes')).to.eql('foo');
+            expect(utils.opEval).to.have.been.calledWith('opFn', 'data', 'req', 'originalRes');
+        });
+    });
 });
