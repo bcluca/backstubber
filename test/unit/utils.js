@@ -29,4 +29,16 @@ describe('Utils', function () {
             expect(utils.regexForStatus('1Xx')).to.eql(/^1\d\d$/);
         });
     });
+
+    describe('#emptyVal', function () {
+        it('returns [] if an array is passed', function () {
+            expect(utils.emptyVal([1, 2, 3])).to.eql([]);
+        });
+
+        it('returns {} otherwise', function () {
+            expect(utils.emptyVal({})).to.eql({});
+            expect(utils.emptyVal({ foo: 'bar' })).to.eql({});
+            expect(utils.emptyVal(null)).to.eql({});
+        });
+    });
 });
