@@ -1,8 +1,12 @@
 'use strict';
 
-var expect      = require('chai').expect;
+var chai        = require('chai');
+var expect      = chai.expect;
 var sinon       = require('sinon');
+var sinonChai   = require('sinon-chai');
 var backstubber = require('../../src');
+
+chai.use(sinonChai);
 
 describe('Backstubber', function () {
     var app = backstubber();
@@ -20,42 +24,42 @@ describe('Backstubber', function () {
         describe('#head', function () {
             it('delegates to #_registerStub', function () {
                 app.head('route', 'stub', 'service', 'status');
-                expect(app._registerStub.calledWith('stub', 'js', 'head', 'route', 'service', 'status')).to.be.true;
+                expect(app._registerStub).to.have.been.calledWith('stub', 'js', 'head', 'route', 'service', 'status');
             });
         });
 
         describe('#get', function () {
             it('delegates to #_registerStub', function () {
                 app.get('route', 'stub', 'service', 'status');
-                expect(app._registerStub.calledWith('stub', 'js', 'get', 'route', 'service', 'status')).to.be.true;
+                expect(app._registerStub).to.have.been.calledWith('stub', 'js', 'get', 'route', 'service', 'status');
             });
         });
 
         describe('#post', function () {
             it('delegates to #_registerStub', function () {
                 app.post('route', 'stub', 'service', 'status');
-                expect(app._registerStub.calledWith('stub', 'js', 'post', 'route', 'service', 'status')).to.be.true;
+                expect(app._registerStub).to.have.been.calledWith('stub', 'js', 'post', 'route', 'service', 'status');
             });
         });
 
         describe('#put', function () {
             it('delegates to #_registerStub', function () {
                 app.put('route', 'stub', 'service', 'status');
-                expect(app._registerStub.calledWith('stub', 'js', 'put', 'route', 'service', 'status')).to.be.true;
+                expect(app._registerStub).to.have.been.calledWith('stub', 'js', 'put', 'route', 'service', 'status');
             });
         });
 
         describe('#delete', function () {
             it('delegates to #_registerStub', function () {
                 app.delete('route', 'stub', 'service', 'status');
-                expect(app._registerStub.calledWith('stub', 'js', 'delete', 'route', 'service', 'status')).to.be.true;
+                expect(app._registerStub).to.have.been.calledWith('stub', 'js', 'delete', 'route', 'service', 'status');
             });
         });
 
         describe('#all', function () {
             it('delegates to #_registerStub', function () {
                 app.all('route', 'stub', 'service', 'status');
-                expect(app._registerStub.calledWith('stub', 'js', 'all', 'route', 'service', 'status')).to.be.true;
+                expect(app._registerStub).to.have.been.calledWith('stub', 'js', 'all', 'route', 'service', 'status');
             });
         });
     });
@@ -64,7 +68,7 @@ describe('Backstubber', function () {
         it('delegates to express app#listen', function () {
             sandbox.stub(app._app, 'listen');
             app.listen(3333, 'foo', 'bar');
-            expect(app._app.listen.calledWith(3333, 'foo', 'bar')).to.be.true;
+            expect(app._app.listen).to.have.been.calledWith(3333, 'foo', 'bar');
         });
     });
 });

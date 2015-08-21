@@ -27,7 +27,8 @@
     "jsdoc": "^3.3.2",
     "latodoc": "smeijer/latodoc",
     "mocha": "^2.2.5",
-    "sinon": "^1.16.0"
+    "sinon": "^1.16.0",
+    "sinon-chai": "^2.8.0"
   },
   "scripts": {
     "docs": "node_modules/.bin/jsdoc --configure .jsdoc.json --verbose",

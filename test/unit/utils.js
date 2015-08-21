@@ -1,9 +1,20 @@
 'use strict';
 
-var expect = require('chai').expect;
-var utils  = require('../../src/utils');
+var chai      = require('chai');
+var expect    = chai.expect;
+var sinon     = require('sinon');
+var sinonChai = require('sinon-chai');
+var utils     = require('../../src/utils');
+
+chai.use(sinonChai);
 
 describe('Utils', function () {
+    var sandbox = sinon.sandbox.create();
+
+    afterEach(function () {
+        sandbox.restore();
+    });
+
     describe('#regexForStatus', function () {
         it('can create a regex that matches 200', function () {
             expect(utils.regexForStatus('200')).to.eql(/^200$/);
@@ -61,6 +72,38 @@ describe('Utils', function () {
 
         it('returns false if oa is an object that does not have the property pv', function () {
             expect(utils.has('foo', { bar: 'baz' })).to.be.false;
+        });
+    });
+
+    describe('#opEval', function () {
+        describe('with an op value', function () {
+            it('returns true if op is truthy', function () {
+                expect(utils.opEval(true)).to.be.true;
+                expect(utils.opEval(1)).to.be.true;
+            });
+
+            it('returns false if op is falsy', function () {
+                expect(utils.opEval(false)).to.be.false;
+                expect(utils.opEval(0)).to.be.false;
+            });
+        });
+
+        describe('with an op function', function () {
+            var mockOpFn;
+
+            beforeEach(function () {
+                mockOpFn = sandbox.stub().returns(42);
+            });
+
+            it('calls op and returns its return value', function () {
+                expect(utils.opEval(mockOpFn)).to.equal(42);
+                expect(mockOpFn).to.have.been.calledOnce;
+            });
+
+            it('passes data, req and originalRes to op', function () {
+                utils.opEval(mockOpFn, 'data', 'req', 'originalRes');
+                expect(mockOpFn).to.have.been.calledWith('data', 'req', 'originalRes');
+            });
         });
     });
 });
