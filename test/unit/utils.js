@@ -124,4 +124,27 @@ describe('Utils', function () {
             expect(utils.opEval).to.have.been.calledWith('opFn', 'data', 'req', 'originalRes');
         });
     });
+
+    describe('#isOp', function () {
+        describe('within an array', function () {
+            it('returns true if the pi index points to a valid op', function () {
+                expect(utils.isOp(1, ['foo', '_$$', 'bar'])).to.be.true;
+            });
+
+            it('returns false if the pi index does not point to a valid op', function () {
+                expect(utils.isOp(0, ['foo', '_$$', 'bar'])).to.be.false;
+                expect(utils.isOp(1, ['foo', '_$', 'bar'])).to.be.false;
+            });
+        });
+
+        describe('within an object', function () {
+            it('returns true if the pi property is a valid op', function () {
+                expect(utils.isOp('_$$', {})).to.be.true;
+            });
+
+            it('returns false if the pi property is not a valid op', function () {
+                expect(utils.isOp('_$', {})).to.be.false;
+            });
+        });
+    });
 });
