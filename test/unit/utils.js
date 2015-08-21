@@ -41,4 +41,26 @@ describe('Utils', function () {
             expect(utils.emptyVal(null)).to.eql({});
         });
     });
+
+    describe('#has', function () {
+        it('returns false if oa is null', function () {
+            expect(utils.has('foo', null)).to.be.false;
+        });
+
+        it('returns true if oa is an array that has the value pv', function () {
+            expect(utils.has('foo', ['foo'])).to.be.true;
+        });
+
+        it('returns false if oa is an array that does not have the value pv', function () {
+            expect(utils.has('foo', ['bar', 'baz'])).to.be.false;
+        });
+
+        it('returns true if oa is an object that has the property pv', function () {
+            expect(utils.has('foo', { foo: 'bar' })).to.be.true;
+        });
+
+        it('returns false if oa is an object that does not have the property pv', function () {
+            expect(utils.has('foo', { bar: 'baz' })).to.be.false;
+        });
+    });
 });

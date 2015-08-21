@@ -15,22 +15,22 @@ function emptyVal(oa) {
     return oa instanceof Array ? [] : {};
 }
 
-function has(av, oa) {
+function has(pv, oa) {
     if (!oa) { return false; }
-    return oa instanceof Array ? oa.indexOf(av) !== -1 : oa.hasOwnProperty(av);
+    return oa instanceof Array ? oa.indexOf(pv) !== -1 : oa.hasOwnProperty(pv);
 }
 
 function opEval(op, data, req, originalRes) {
     return typeof op === 'function' ? op(data, req, originalRes) : !!op;
 }
 
-function opVal(av, oa, data, req, originalRes) {
+function opVal(pv, oa, data, req, originalRes) {
     if (!oa) { return false; }
-    return oa instanceof Array ? false : opEval(oa[av], data, req, originalRes);
+    return oa instanceof Array ? false : opEval(oa[pv], data, req, originalRes);
 }
 
-function isOp(ai, oa) {
-    var op = oa instanceof Array ? oa[ai] : ai;
+function isOp(pi, oa) {
+    var op = oa instanceof Array ? oa[pi] : pi;
     return OPS.indexOf(op) !== -1;
 }
 
