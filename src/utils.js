@@ -34,11 +34,11 @@ function isOp(pi, oa) {
     return OPS.indexOf(op) !== -1;
 }
 
-function setVal(value, ai, oa) {
+function setVal(value, pi, oa) {
     if (oa instanceof Array) {
         oa.push(value);
     } else {
-        oa[ai] = value;
+        oa[pi] = value;
     }
 }
 

@@ -147,4 +147,20 @@ describe('Utils', function () {
             });
         });
     });
+
+    describe('#setVal', function () {
+        it('pushes the value if oa is an array', function () {
+            var array = [1, 2, 3];
+            utils.setVal(42, 0, array);
+            expect(array.length).to.equal(4);
+            expect(array[3]).to.equal(42);
+        });
+
+        it('sets the pi property to value if oa is an object', function () {
+            var obj = { foo: 'bar'};
+            utils.setVal(42, 'baz', obj);
+            expect(obj).to.haveOwnProperty('baz');
+            expect(obj.baz).to.equal(42);
+        });
+    });
 });
