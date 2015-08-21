@@ -163,4 +163,12 @@ describe('Utils', function () {
             expect(obj.baz).to.equal(42);
         });
     });
+
+    describe('#transform', function () {
+        it('pending');
+    });
+
+    describe('#requiredArgs', function () {
+        it('pending');
+    });
 });

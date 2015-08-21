@@ -16,6 +16,18 @@ describe('Backstubber', function () {
         sandbox.restore();
     });
 
+    describe('#mount', function () {
+        it('pending');
+    });
+
+    describe('#proxy', function () {
+        it('pending');
+    });
+
+    describe('#_registerStub', function () {
+        it('pending');
+    });
+
     describe('HTTP methods', function () {
         beforeEach(function () {
             sandbox.stub(app, '_registerStub');
