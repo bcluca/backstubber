@@ -1,7 +1,7 @@
 /**
 * Simple yet powerful backend stubs.
 * @module backstubber
-* @version v0.1.22
+* @version v0.1.23
 * @author {@link https://github.com/bcluca|Luca Bernardo Ciddio}
 * @license MIT
 */
