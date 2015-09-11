@@ -169,6 +169,19 @@ describe('Utils', function () {
     });
 
     describe('#requiredArgs', function () {
-        it('pending');
+        var fn = function () {
+            utils.requiredArgs('foo', 'bar', arguments);
+        };
+
+        it('throws an error if an argument is missing', function () {
+            expect(function () { fn();               }).to.throw(/missing/);
+            expect(function () { fn('a');            }).to.throw(/bar/);
+            expect(function () { fn(undefined, 'b'); }).to.throw(/foo/);
+        });
+
+        it('does not throw an error if all required arguments are present', function () {
+            expect(function () { fn('a', 'b');      }).not.to.throw;
+            expect(function () { fn('a', 'b', 'c'); }).not.to.throw;
+        });
     });
 });
